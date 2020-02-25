@@ -5,9 +5,9 @@ import * as fs from 'fs'
 let docker = new Dockerode()
 
 function streamToString (stream:any) {
-    const chunks:any = []
+    const chunks:Uint8Array[] = []
     return new Promise((resolve, reject) => {
-      stream.on('data', (chunk:any) => chunks.push(chunk))
+      stream.on('data', (chunk:Uint8Array) => chunks.push(chunk))
       stream.on('error', reject)
       stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
     })
@@ -16,12 +16,22 @@ function streamToString (stream:any) {
 app.on('ready', () => {
 
     bootstrapCLIContainer( container => {
-        container.exec({Cmd:["lv-cli", "help"], AttachStdin: true, AttachStdout: true}, (err, command:Exec) =>{
-            command.start({}, (error, data) => {
-                streamToString(data).then( (str) => {
-                    console.log("--" + str + "--")
+        container.exec({Cmd:["lv-cli", "verbose", "scan", "-i", "/tmp/project", "-o", "/tmp/project/.build/project.json"], 
+        AttachStdin: true, AttachStdout: true, AttachStderr: true}, (err, command:Exec) =>{
+            if (err != null) {
+                console.log("error:", err)
+            } else {
+                command.start({}, (error, data) => {
+                    if (error != null) {
+                        console.log("error:", err)
+                    } else {
+                        streamToString(data).then( (str) => {
+                            console.log("--" + str + "--")
+                        })
+                    }
+
                 })
-            })
+            }
         }) 
     })
 })
@@ -31,6 +41,10 @@ function bootstrapCLIContainer( callback:(container:Container) => void) {
         Image: 'lvedock/lve_runtime',
         Tty: true,
         AttachStdout: true,
+        AttachStderr: true,
+        HostConfig:{
+            Binds:["/Users/lino/Desktop/gueme:/tmp/project"]
+        }
     }, (error:any, container:Container | undefined) => {
         if(container != undefined){
             container.start((error:any, data:any) => {

@@ -2,7 +2,6 @@
   "name": "lv-editor",
   "version": "0.1.0",
   "scripts": {
-    "clear": "rimraf build",
     "build:main": "tsc --p src/main/tsconfig.json",
     "start:electron": "electron ./build/main/main.js",
     "dev": "npm-run-all clear build:* start:*",
