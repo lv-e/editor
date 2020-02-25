@@ -48,7 +48,6 @@
             "tsConfig": "renderer/welcome/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "renderer/welcome/src/favicon.ico",
               "renderer/welcome/src/assets"
             ],
             "styles": [
@@ -151,7 +150,6 @@
             "tsConfig": "renderer/editor/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "renderer/editor/src/favicon.ico",
               "renderer/editor/src/assets"
             ],
             "styles": [
@@ -254,7 +252,6 @@
             "tsConfig": "renderer/simulator/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "renderer/simulator/src/favicon.ico",
               "renderer/simulator/src/assets"
             ],
             "styles": [
