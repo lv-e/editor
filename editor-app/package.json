@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "scripts": {
 
+    "prod-renderer:welcome": "ng build welcome",
+    "prod-renderer:simulator": "ng build simulator",
+    "prod-renderer:editor": "ng build editor",
+    "prod": "concurrently \"npm:prod-renderer:*\"",
+
     "dev-renderer:welcome": "ng serve welcome --port=4100",
     "dev-renderer:simulator": "ng serve simulator --port=4200",
     "dev-renderer:editor": "ng serve editor --port=4300",

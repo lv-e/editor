@@ -4,6 +4,11 @@
 /dist
 /tmp
 /out-tsc
+
+/editor-app/tmp
+/editor-app/dist
+/editor-app/out-tsc
+
 # Only exists if Bazel was run
 /bazel-out
 
