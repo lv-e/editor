@@ -2,7 +2,6 @@
   "name": "editor-app",
   "version": "0.0.0",
   "scripts": {
-
     "prod-renderer:welcome": "ng build welcome",
     "prod-renderer:simulator": "ng build simulator",
     "prod-renderer:editor": "ng build editor",
@@ -11,8 +10,9 @@
     "dev-renderer:welcome": "ng serve welcome --port=4100",
     "dev-renderer:simulator": "ng serve simulator --port=4200",
     "dev-renderer:editor": "ng serve editor --port=4300",
-    "dev": "concurrently \"npm:dev-renderer:*\""
-
+    "dev:load-all": "concurrently \"npm:dev-renderer:*\"",
+    "dev:wait-electron": "wait-on http://localhost:4100 http://localhost:4200 http://localhost:4300 && tsc ./main/index.ts && electron ./main",
+    "dev": "concurrently \"npm:dev:*\""
   },
   "private": true,
   "dependencies": {
@@ -35,7 +35,9 @@
     "@angular/language-service": "~9.0.2",
     "@types/node": "^12.11.1",
     "concurrently": "^5.1.0",
+    "electron": "^8.0.1",
     "ts-node": "~8.3.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "wait-on": "^4.0.0"
   }
 }
