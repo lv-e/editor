@@ -1,26 +1,18 @@
 "use strict";
 exports.__esModule = true;
 var electron_1 = require("electron");
+var welcome_main_1 = require("./welcome/welcome-main");
 electron_1.app.on('ready', function () {
     console.log("electron is ready");
-    presentWelcome();
+    welcome_main_1.presentWelcome();
 });
 electron_1.ipcMain.on('open-file', function (event, data) {
     console.log('message received on main process');
-    electron_1.dialog.showOpenDialog(null, {}).then(function () {
-        console.log("asd");
+    electron_1.dialog.showOpenDialog(null, {
+        title: "open project",
+        properties: ["openFile"],
+        filters: [{ name: "project", extensions: ["lvproject"] }]
+    }).then(function (data) {
+        console.log("asd", data);
     });
 });
-function presentWelcome() {
-    var window = new electron_1.BrowserWindow({
-        width: 600,
-        height: 400,
-        frame: false,
-        resizable: false,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-    window.loadURL("http://localhost:4100/");
-    window.show();
-}

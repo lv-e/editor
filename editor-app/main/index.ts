@@ -1,4 +1,5 @@
-import {app, BrowserWindow, ipcMain, dialog} from "electron"
+import { app, BrowserWindow, ipcMain, dialog } from "electron"
+import { presentWelcome } from "./welcome/welcome-main"
 
 app.on('ready', () => {
     console.log("electron is ready")
@@ -7,21 +8,13 @@ app.on('ready', () => {
 
 ipcMain.on('open-file', (event, data)  => {
     console.log('message received on main process')
-    dialog.showOpenDialog(null,{}).then( () => {
-        console.log("asd")
+    dialog.showOpenDialog(null,{
+        title: "open project",
+        properties: ["openFile"],
+        filters:[{ name: "project", extensions:["lvproject"] }]
+    }).then( (data) => {
+        console.log("asd", data)
     })
 })
 
-function presentWelcome() {
-    let window = new BrowserWindow({
-        width:600,
-        height:400,
-        frame: false,
-        resizable: false,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-    window.loadURL("http://localhost:4100/")
-    window.show()
-}
+
