@@ -10,9 +10,10 @@
     "dev-renderer:welcome": "ng serve welcome --port=4100",
     "dev-renderer:simulator": "ng serve simulator --port=4200",
     "dev-renderer:editor": "ng serve editor --port=4300",
-    "dev:load-all": "concurrently \"npm:dev-renderer:*\"",
-    "dev:wait-electron": "wait-on http://localhost:4100 http://localhost:4200 http://localhost:4300 && tsc ./main/index.ts && electron ./main",
-    "dev": "concurrently \"npm:dev:*\""
+    "dev:load-all": "concurrently -k \"npm:dev-renderer:*\"",
+    "dev-electron-app": "tsc -p main.tsconfig.json && electron ./dist",
+    "dev:wait-electron": "wait-on http://localhost:4100 http://localhost:4200 http://localhost:4300 && npm run dev-electron-app",
+    "dev": "concurrently -k \"npm:dev:*\""
   },
   "private": true,
   "dependencies": {

@@ -54,6 +54,6 @@ export class AppComponent {
   }
 
   handleOpen(event:Event) {
-    this.ipc.send('open-file')
+    this.ipc.send('welcome:open-file')
   }
 }
