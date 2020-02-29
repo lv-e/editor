@@ -23,7 +23,7 @@ function showOpenFileDialog(event:Electron.IpcMainEvent){
     }).then( (data:Electron.OpenDialogReturnValue) => {
         if (!data.canceled) {
             let choosen = data.filePaths[0]
-            ipcMain.emit("welcome:project-choosen", choosen)
+            event.reply("welcome:project-choosen", choosen)
         }
     })
 }

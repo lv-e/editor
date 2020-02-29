@@ -54,6 +54,9 @@ export class AppComponent {
   }
 
   handleOpen(event:Event) {
+    this.ipc.on('welcome:project-choosen', (event, arg) => {
+      this.ipc.send('project:open', arg)  
+    })
     this.ipc.send('welcome:open-file')
   }
 }
