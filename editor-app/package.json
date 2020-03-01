@@ -6,7 +6,6 @@
     "prod-renderer:simulator": "ng build simulator",
     "prod-renderer:editor": "ng build editor",
     "prod": "concurrently \"npm:prod-renderer:*\"",
-
     "dev-renderer:welcome": "ng serve welcome --port=4100",
     "dev-renderer:simulator": "ng serve simulator --port=4200",
     "dev-renderer:editor": "ng serve editor --port=4300",
@@ -25,6 +24,8 @@
     "@angular/platform-browser": "~9.0.2",
     "@angular/platform-browser-dynamic": "~9.0.2",
     "@angular/router": "~9.0.2",
+    "dockerode": "^3.1.0",
+    "dockerode-ts": "^0.3.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
