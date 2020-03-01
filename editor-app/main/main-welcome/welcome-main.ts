@@ -1,12 +1,13 @@
 import { BrowserWindow, ipcMain, dialog } from "electron"
-import * as path from 'path'
+import { join } from 'path'
 import { format as formatUrl } from 'url'
 import { isDevelopment } from ".."
 
 // IPC messages for welcome
 export function bootstrap() {
-    ipcMain.on('welcome:open-file', showOpenFileDialog)
-    ipcMain.on('welcome:show', presentWelcome)    
+    ipcMain.on('welcome:open-project', showOpenFileDialog)
+    ipcMain.on('welcome:show', presentWelcome)
+    ipcMain.on('welcome:close', closeWelcome)
 }
 
 let welcomeWindow:BrowserWindow = null
@@ -24,8 +25,14 @@ function showOpenFileDialog(event:Electron.IpcMainEvent){
         if (!data.canceled) {
             let choosen = data.filePaths[0]
             event.reply("welcome:project-choosen", choosen)
+            ipcMain.emit("welcome:close")
         }
     })
+}
+
+function closeWelcome(event:Electron.IpcMainEvent) {
+    welcomeWindow.close()
+    welcomeWindow = null
 }
 
 function presentWelcome(event:Electron.IpcMainEvent) {
@@ -42,7 +49,7 @@ function presentWelcome(event:Electron.IpcMainEvent) {
 
         if (isDevelopment) welcomeWindow.loadURL("http://localhost:4100/")
         else welcomeWindow.loadURL( formatUrl( {
-            pathname: path.join(__dirname, "welcome", 'index.html'),
+            pathname: join(__dirname, "welcome", 'index.html'),
             protocol: 'file',
             slashes: true
         }))

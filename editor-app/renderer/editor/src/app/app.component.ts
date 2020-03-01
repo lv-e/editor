@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styles: []
 })
 export class AppComponent {
+
   title = 'editor';
+
+  constructor(
+    private route: ActivatedRoute
+  ){}
+
+  ngOnInit() {
+    const path: string = this.route.snapshot.queryParamMap.get('path');
+    this.title = "editor for: " + this.route.snapshot
+  }
 }
