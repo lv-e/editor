@@ -17,8 +17,8 @@ export class AppComponent {
   title = 'welcome';
 
   handleOpen(event:Event) {
-    this.ipc.on('welcome:project-choosen', (event, arg) => {
-      this.ipc.send('editor:open-project', arg)  
+    this.ipc.on('welcome:project-choosen', (event, filepath:string) => {
+      this.ipc.send('editor:open-project', filepath.trim())  
     })
     this.ipc.send('welcome:open-project')
   }

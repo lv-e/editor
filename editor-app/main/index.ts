@@ -9,6 +9,12 @@ app.on('ready', () => {
 
     WelcomeMain.bootstrap()
     EditorMain.bootstrap()
-    
+
     ipcMain.emit("welcome:show")
+})
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 })

@@ -3,6 +3,7 @@ import { dirname, join } from 'path';
 import { isDevelopment } from '..';
 import { callbackify } from 'util';
 import { readFileSync } from 'fs';
+import * as cli from '@lv-game-editor/lv-cli'
 
 let dockerInstance:Dockerode = null
 function docker() : Dockerode {
@@ -20,9 +21,9 @@ export class DockerInterface {
     static accessForProject(path:string) : DockerInterface {
         
         for (const access of accessList) {
-            if(access.path == path) return access
+            if(access.path.trim() == path.trim()) return access
         }
-        
+
         let access = new DockerInterface(path)
         accessList.push(access)
         return access
@@ -103,7 +104,17 @@ export class DockerInterface {
         }
     }
 
-    scan(completion:(data:any) => void){
+    stop(){
+        
+        accessList = accessList.filter( access => access != this)
+        let container = docker().getContainer(this.containerID)
+
+        if (isDevelopment) console.log("container id " + this.containerID + " was asked to stop")
+        container.stop( () => { container.remove( () => { console.log("stoped!")})})
+        this.path = null
+    }
+
+    scan(completion:(data:cli.rootFolders) => void){
         this.runLvCLI({
             command: "scan",
             input: "/tmp/project",
@@ -111,8 +122,8 @@ export class DockerInterface {
         }, () => {
             let path = join(this.dir(), ".build", "project.json")
             const projectJson = readFileSync(path, "utf8")
-            const projectData = JSON.parse(projectJson) 
-            completion(projectData)
+            const root:cli.rootFolders = JSON.parse(projectJson) 
+            completion(root)
         })
     }
 
@@ -124,7 +135,7 @@ export class DockerInterface {
             const context = this 
 
             const command = [
-                "lv-cli", "verbose", data.command,
+                "lv-cli", isDevelopment ? "verbose" : "", data.command,
                 "-i", data.input, "-o", data.output
             ]
 
