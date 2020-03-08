@@ -5,17 +5,26 @@ import { format as formatUrl } from 'url'
 import { DockerInterface } from "./docker-interface";
 import * as cli from '@lv-game-editor/lv-cli'
 import {watch} from 'chokidar'
+import { openSimulator } from "../main-simulator/simulator-main";
 
 // IPC messages for welcome
 export function bootstrap() {
     ipcMain.on('editor:open-project', openProject)
     ipcMain.on('editor:scan-project-files', scanProjectFiles)
     ipcMain.on('editor:build', runBuild)
-    ipcMain.on('editor:close', (event, path) => DockerInterface.accessForProject(path).stop())
+    ipcMain.on('editor:open-simulator', callSimulator)
+    ipcMain.on('editor:close', (event, path) => {
+        ipcMain.emit("simulator:close", event, path)
+        DockerInterface.accessForProject(path).stop()
+    })
+}
+
+function callSimulator(event:any, path:string){
+    openSimulator(path)
 }
 
 function runBuild(event:any, path:string){
-    console.log("do build for: " + path)
+    console.log("starting build for: " + path)
     let access = DockerInterface.accessForProject(path)
     access.encode( success => {
         console.log("success: " + success)
@@ -67,6 +76,7 @@ function scanProjectFiles(event:IpcMainEvent, path:string){
     
         function scan(file?:string){
             if (file != null && basename(file).startsWith(".")) return
+            if (file != null && file.includes(".build/")) return
             DockerInterface.accessForProject(path).scan( (data:cli.rootFolders) => {
                 event.reply("editor:project-files-updated", path, data)
             })

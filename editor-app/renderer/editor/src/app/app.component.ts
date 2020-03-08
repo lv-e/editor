@@ -5,7 +5,11 @@ import { rootFolders } from '@lv-game-editor/lv-cli';
 
 @Component({
   selector: 'app-root',
-  template: `<button (click)="buildAction()">build</button><pre [innerHTML]="project"></pre>`,
+  template: `
+    <button (click)="buildAction()">build</button>
+    <button (click)="startSim()">simulator</button>
+    <pre [innerHTML]="project"></pre>
+  `,
   styles: []
 })
 export class AppComponent implements OnInit {
@@ -41,4 +45,9 @@ export class AppComponent implements OnInit {
   buildAction(){
     this.ipc.send("editor:build", this.path)
   }
+
+  startSim(){
+    this.ipc.send("editor:open-simulator", this.path)
+  }
+
 }
