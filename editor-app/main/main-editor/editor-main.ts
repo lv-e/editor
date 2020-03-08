@@ -10,7 +10,16 @@ import {watch} from 'chokidar'
 export function bootstrap() {
     ipcMain.on('editor:open-project', openProject)
     ipcMain.on('editor:scan-project-files', scanProjectFiles)
+    ipcMain.on('editor:build', runBuild)
     ipcMain.on('editor:close', (event, path) => DockerInterface.accessForProject(path).stop())
+}
+
+function runBuild(event:any, path:string){
+    console.log("do build for: " + path)
+    let access = DockerInterface.accessForProject(path)
+    access.encode( success => {
+        console.log("success: " + success)
+    })
 }
 
 function openProject(event:any, path:string) {

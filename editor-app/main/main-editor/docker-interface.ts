@@ -114,6 +114,16 @@ export class DockerInterface {
         this.path = null
     }
 
+    encode(completion:(success:boolean) => void){
+        this.runLvCLI({
+            command: "encode",
+            input: "/tmp/project/.build/project.json",
+            output: "/tmp/project/.build/src"
+        }, () => {
+            completion(true)
+        })
+    }
+
     scan(completion:(data:cli.rootFolders) => void){
         this.runLvCLI({
             command: "scan",

@@ -5,7 +5,7 @@ import { rootFolders } from '@lv-game-editor/lv-cli';
 
 @Component({
   selector: 'app-root',
-  template: `<pre [innerHTML]="project"></pre>`,
+  template: `<button (click)="buildAction()">build</button><pre [innerHTML]="project"></pre>`,
   styles: []
 })
 export class AppComponent implements OnInit {
@@ -36,5 +36,9 @@ export class AppComponent implements OnInit {
       }))
       this.ipc.send("editor:scan-project-files", this.path)
     });
+  }
+
+  buildAction(){
+    this.ipc.send("editor:build", this.path)
   }
 }
