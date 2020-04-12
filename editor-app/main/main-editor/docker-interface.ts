@@ -1,7 +1,6 @@
 import Dockerode, { Container, Exec, ContainerCreateOptions, ContainerInspectInfo } from 'dockerode-ts';
 import { dirname, join } from 'path';
 import { isDevelopment } from '..';
-import { callbackify } from 'util';
 import { readFileSync } from 'fs';
 import * as cli from '@lv-game-editor/lv-cli'
 
@@ -55,17 +54,22 @@ export class DockerInterface {
         let context = this
         
         let options:ContainerCreateOptions = { 
-            Image: 'lvedock/lve_runtime',
+            Image: 'lvedock/lve_emulator',
             Cmd:['/bin/sh'],
             Tty: true, AttachStdout: true, AttachStderr: true, AttachStdin: true,
             HostConfig:{
-                Binds:[ this.dir() + ":/tmp/project" ]
+                Binds:[
+                    this.dir() + ":/lv/project",
+                    this.dir() + "/.shared:/lv/shared",
+                    this.dir() + "/.bin:/lv/bin",
+                ]
             }
         }
     
         docker().createContainer(options, onCreate)
     
         function onCreate(error:any, response:Container | undefined){
+            if(error != null) throw new Error("can't load container! \n" + error)
             if(response == null) throw new Error("can't load container")
             container = response
             container.start(onStart);
@@ -114,26 +118,26 @@ export class DockerInterface {
         this.path = null
     }
 
-    encode(completion:(success:boolean) => void){
-        this.runLvCLI({
-            command: "encode",
-            input: "/tmp/project/.build/project.json",
-            output: "/tmp/project/.build/src"
-        }, () => {
-            completion(true)
-        })
-    }
-
     scan(completion:(data:cli.rootFolders) => void){
         this.runLvCLI({
             command: "scan",
-            input: "/tmp/project",
-            output: "/tmp/project/.build/project.json"
+            input: "/lv/project",
+            output: "/lv/shared/project.json"
         }, () => {
-            let path = join(this.dir(), ".build", "project.json")
+            let path = join(this.dir(), ".shared", "project.json")
             const projectJson = readFileSync(path, "utf8")
             const root:cli.rootFolders = JSON.parse(projectJson) 
             completion(root)
+        })
+    }
+
+    encode(completion:(success:boolean) => void){
+        this.runLvCLI({
+            command: "encode",
+            input: "/lv/shared/project.json",
+            output: "/lv"
+        }, () => {
+            completion(true)
         })
     }
 
@@ -180,7 +184,7 @@ export class DockerInterface {
                         callback()
                     }
                     
-                }).catch((error) => {
+                }).catch(() => {
                     throw new Error("can't decode stream")
                 })
             }

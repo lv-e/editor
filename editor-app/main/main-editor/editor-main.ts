@@ -76,7 +76,8 @@ function scanProjectFiles(event:IpcMainEvent, path:string){
     
         function scan(file?:string){
             if (file != null && basename(file).startsWith(".")) return
-            if (file != null && file.includes(".build/")) return
+            if (file != null && file.includes(".shared/")) return
+            if (file != null && file.includes(".bin/")) return
             DockerInterface.accessForProject(path).scan( (data:cli.rootFolders) => {
                 event.reply("editor:project-files-updated", path, data)
             })
