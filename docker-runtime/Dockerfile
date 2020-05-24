@@ -21,6 +21,9 @@ RUN \
 # used to share information between machines, .shared on host
     mkdir -p -m 777 /lv/shared \
 \
+# scripts is where build and run .sh files are located
+    mkdir -p -m 777 /lv/scripts \
+\
 # this is the output dir, also is the .bin dir at host machine
     mkdir -p -m 777 /lv/bin
 

@@ -24,11 +24,23 @@ function callSimulator(event:any, path:string){
 }
 
 function runBuild(event:any, path:string){
+
     console.log("starting build for: " + path)
     let access = DockerInterface.accessForProject(path)
+
+    function build(){
+        access.build( success => {
+            if (!success) throw new Error("can't build project!\n")
+            console.log("yeah, man!")
+        })
+    }
+
     access.encode( success => {
-        console.log("success: " + success)
+        if (!success) throw new Error("can't encode project!\n")
+        console.log("done encoding, will now compile\n")
+        build()
     })
+    
 }
 
 function openProject(event:any, path:string) {

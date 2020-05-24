@@ -54,14 +54,22 @@ export class DockerInterface {
         let context = this
         
         let options:ContainerCreateOptions = { 
-            Image: 'lvedock/lve_emulator',
+            Image: 'lvedock/lve_emulator:latest',
             Cmd:['/bin/sh'],
+            ExposedPorts: {
+                '1996/tcp': {}
+            },
             Tty: true, AttachStdout: true, AttachStderr: true, AttachStdin: true,
             HostConfig:{
+                PortBindings: {
+                    '1996/tcp': [{
+                        HostPort: '1996',
+                    }],
+                },
                 Binds:[
                     this.dir() + ":/lv/project",
                     this.dir() + "/.shared:/lv/shared",
-                    this.dir() + "/.bin:/lv/bin",
+                    this.dir() + "/.bin:/lv/bin"
                 ]
             }
         }
@@ -136,6 +144,16 @@ export class DockerInterface {
             command: "encode",
             input: "/lv/shared/project.json",
             output: "/lv"
+        }, () => {
+            completion(true)
+        })
+    }
+
+    build(completion:(success:boolean) => void){
+        this.runLvCLI({
+            command: "build",
+            input: "/lv/scripts/build/build.sh",
+            output: "/lv/bin/game"
         }, () => {
             completion(true)
         })
