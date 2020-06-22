@@ -1,0 +1,30 @@
+{
+    "files.exclude": {
+        "**/logs": true,
+        "**/*.log": true,
+        "**/npm-debug.log*": true,
+        "**/yarn-debug.log*": true,
+        "**/yarn-error.log*": true,
+        "**/lerna-debug.log*": true,
+        "**/typings/": true,
+        "**/*.tsbuildinfo": true,
+        "**/.node_repl_history": true,
+        "**/.yarn-integrity": true,
+        "**/yarn.lock": true,
+        "**/.npm": true,
+        "**/*.tgz": true,
+        "build/Release": true,
+        "**/node_modules/": true,
+        "**/jspm_packages/": true,
+        "**/.cache": true,
+        "**/.vscode": true,
+        "**/.idea": true,
+        "**/.gitignore": true,
+        "**/.github": true,
+        "**/.githubopen": true,
+        "**/lib": true,
+        "**/coverage": true,
+        "**/editor-app/dist": true,
+        "**/README.md": true
+    }
+}

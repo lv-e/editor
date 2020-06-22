@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'cellphone';
+  font-style: normal;
+  font-weight: normal;
+  src: url('cellphone.4de8278b.woff') format('woff');
+}
+* {
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  outline: none;
+  font-family: cellphone;
+  font-size: 8px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+body {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+
+/*# sourceMappingURL=/main.c39d6dcf.css.map */

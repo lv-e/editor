@@ -47,7 +47,8 @@ function presentWelcome(event:Electron.IpcMainEvent) {
             }
         })
 
-        if (isDevelopment) welcomeWindow.loadURL("http://localhost:4100/")
+        if (isDevelopment) 
+            welcomeWindow.loadURL("http://localhost:4100/")
         else welcomeWindow.loadURL( formatUrl( {
             pathname: join(__dirname, "welcome", 'index.html'),
             protocol: 'file',

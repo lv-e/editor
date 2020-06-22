@@ -1,12 +1,21 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Main } from "./components/main";
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+export class App{
+    private _appName: string = "lvndr-welcome";
 
-if (environment.production) {
-  enableProdMode();
+    constructor(){
+        this.render();
+    }
+
+    private render(): void{
+        ReactDOM.render(React.createElement(Main, { app: this }), document.getElementById("app"));
+    }
+
+    public get appName(): string {
+        return this._appName;
+    }
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+new App();
