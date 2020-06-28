@@ -1,8 +1,76 @@
+#welcome-header {
+  border-image-source: url('header-bg.a411a1a9.png');
+  border-image-slice: 9 fill;
+  border-image-width: 9px;
+  min-width: 200px;
+  padding: 2px;
+  height: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+#welcome-header > .minibutton {
+  margin: 3px;
+  flex-shrink: 1;
+}
+#welcome-header > .logo {
+  height: 20px;
+  flex-grow: 1;
+  flex-direction: row;
+  display: flex;
+}
+.logo > .stripe {
+  height: 20px;
+  flex-grow: 1;
+  background-image: url('header-logo-line-bg.4293395c.png');
+  background-repeat: repeat-x;
+  margin: 0px 6px;
+}
+.logo > img {
+  margin-left: -6px;
+  margin-right: -6px;
+  flex-shrink: 1;
+}
+
+.minibutton {
+  font-size: 0px;
+  width: 15px;
+  height: 17px;
+  background: url('bg-mini-btn.3e15b04e.png') no-repeat 0 0;
+}
+.minibutton:hover {
+  background: url("bg-mini-btn_hover.406c57d8.png") no-repeat 0 0;
+}
+.minibutton:active {
+  height: 15px;
+  padding-top: 1px;
+}
+.minibutton img {
+  content: url("1px.77a0d880.png");
+}
+.minibutton .icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  border-image-width: 0px;
+}
+.minibutton .icon-close,
+.minibutton:hover .icon-close {
+  background-image: url("ico-mini-btn-close.3999b4a2.png");
+}
+.minibutton .icon-minimize,
+.minibutton:hover .icon-minimize {
+  background-image: url("ico-mini-btn-minimize.4f96ad7f.png");
+}
+.minibutton .icon-maximize,
+.minibutton:hover .icon-maximize {
+  background-image: url("ico-mini-btn-maximize.66a9423e.png");
+}
+
 @font-face {
   font-family: 'cellphone';
   font-style: normal;
   font-weight: normal;
-  src: url('cellphone.4de8278b.woff') format('woff');
+  src: url('cellphone.b3059a65.woff') format('woff');
 }
 * {
   box-sizing: border-box;
@@ -22,6 +90,10 @@
 body {
   -webkit-user-select: none;
   -webkit-app-region: drag;
+}
+#welcome > div {
+  display: flex;
+  flex-direction: row;
 }
 
 

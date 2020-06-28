@@ -1,0 +1,38 @@
+
+#welcome-header {
+    border-image-source: url('../../../../app-assets/images/bg/header-bg.png');
+    border-image-slice: 9 fill;
+    border-image-width: 9px;
+    min-width: 200px;
+    padding: 2px;
+    height: 25px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+#welcome-header > .minibutton {    
+    margin: 3px;
+    flex-shrink: 1;
+}
+
+#welcome-header > .logo {
+    height: 20px;
+    flex-grow: 1;
+    flex-direction: row;
+    display: flex;
+}
+
+.logo > .stripe {
+    height: 20px;
+    flex-grow: 1;
+    background-image: url('../../../../app-assets/images/bg/header-logo-line-bg.png');
+    background-repeat: repeat-x;
+    margin: 0px 6px;
+}
+
+.logo > img {
+    margin-left: -6px;
+    margin-right: -6px;
+    flex-shrink: 1;
+}
