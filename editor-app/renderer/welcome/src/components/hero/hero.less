@@ -1,0 +1,29 @@
+@import "../../../../app-assets/styles/constants.less";
+
+
+#hero {
+    flex-shrink: 1;
+    border: 1px solid @darkest-gray-color;
+    border-left: 3px solid @darkest-gray-color;
+    border-right: 3px solid @darkest-gray-color;
+    position: relative;
+    width: 100%;
+    font-size: 0px;
+}
+
+#hero > img {
+    width: 100%;
+    overflow: hidden;
+}
+
+#hero:after {
+    content: " ";
+    position: absolute;
+    border-right: 1px solid @gray-color;
+    border-left: 1px solid @gray-color;
+    border-bottom: 1px solid @gray-color;
+    top: -1px;
+    bottom: -2px;
+    left: -2px;
+    right: -2px;
+  }

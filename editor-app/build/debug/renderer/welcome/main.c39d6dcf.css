@@ -1,37 +1,3 @@
-#welcome-header {
-  border-image-source: url('header-bg.a411a1a9.png');
-  border-image-slice: 9 fill;
-  border-image-width: 9px;
-  min-width: 200px;
-  padding: 2px;
-  height: 25px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-}
-#welcome-header > .minibutton {
-  margin: 3px;
-  flex-shrink: 1;
-}
-#welcome-header > .logo {
-  height: 20px;
-  flex-grow: 1;
-  flex-direction: row;
-  display: flex;
-}
-.logo > .stripe {
-  height: 20px;
-  flex-grow: 1;
-  background-image: url('header-logo-line-bg.4293395c.png');
-  background-repeat: repeat-x;
-  margin: 0px 6px;
-}
-.logo > img {
-  margin-left: -6px;
-  margin-right: -6px;
-  flex-shrink: 1;
-}
-
 .minibutton {
   font-size: 0px;
   width: 15px;
@@ -66,6 +32,74 @@
   background-image: url("ico-mini-btn-maximize.66a9423e.png");
 }
 
+#welcome-header {
+  border-image-source: url('header-bg.a411a1a9.png');
+  border-image-slice: 9 fill;
+  border-image-width: 9px;
+  min-width: 200px;
+  padding: 2px;
+  height: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 1;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+#welcome-header > .minibutton {
+  margin: 3px;
+  flex-shrink: 1;
+}
+#welcome-header > .logo {
+  height: 20px;
+  flex-grow: 1;
+  flex-direction: row;
+  display: flex;
+}
+.logo > .stripe {
+  height: 20px;
+  flex-grow: 1;
+  background-image: url('header-logo-line-bg.4293395c.png');
+  background-repeat: repeat-x;
+  margin: 0px 3px;
+}
+.logo > img {
+  margin-left: -3px;
+  margin-right: -3px;
+  flex-shrink: 1;
+}
+
+#hero {
+  flex-shrink: 1;
+  border: 1px solid #272539;
+  border-left: 3px solid #272539;
+  border-right: 3px solid #272539;
+  position: relative;
+  width: 100%;
+  font-size: 0px;
+}
+#hero > img {
+  width: 100%;
+  overflow: hidden;
+}
+#hero:after {
+  content: " ";
+  position: absolute;
+  border-right: 1px solid #ABA7B5;
+  border-left: 1px solid #ABA7B5;
+  border-bottom: 1px solid #ABA7B5;
+  top: -1px;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+}
+
+#start-options {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+}
+
 @font-face {
   font-family: 'cellphone';
   font-style: normal;
@@ -88,12 +122,14 @@
   -webkit-user-select: none;
 }
 body {
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
+  background-color: #78767F;
+  width: 100%;
+  height: 100%;
 }
-#welcome > div {
+#welcome {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  height: 100%;
 }
 
 

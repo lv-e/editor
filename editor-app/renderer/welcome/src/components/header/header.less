@@ -1,18 +1,26 @@
+@import "../../../../app-assets/styles/constants.less";
 
 #welcome-header {
+
     border-image-source: url('../../../../app-assets/images/bg/header-bg.png');
     border-image-slice: 9 fill;
     border-image-width: 9px;
+    
     min-width: 200px;
-    padding: 2px;
+    padding: @p-space;
     height: 25px;
+
     overflow: hidden;
     display: flex;
     flex-direction: row;
+    flex-shrink: 1;
+
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
 }
 
 #welcome-header > .minibutton {    
-    margin: 3px;
+    margin: @m-space;
     flex-shrink: 1;
 }
 
@@ -28,11 +36,11 @@
     flex-grow: 1;
     background-image: url('../../../../app-assets/images/bg/header-logo-line-bg.png');
     background-repeat: repeat-x;
-    margin: 0px 6px;
+    margin: 0px @m-space;
 }
 
 .logo > img {
-    margin-left: -6px;
-    margin-right: -6px;
+    margin-left: -@m-space;
+    margin-right: -@m-space;
     flex-shrink: 1;
 }

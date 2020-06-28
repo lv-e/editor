@@ -28352,12 +28352,7 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"components/header/header.less":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"./../../../../app-assets/images/bg/header-bg.png":[["header-bg.a411a1a9.png","../../app-assets/images/bg/header-bg.png"],"../../app-assets/images/bg/header-bg.png"],"./../../../../app-assets/images/bg/header-logo-line-bg.png":[["header-logo-line-bg.4293395c.png","../../app-assets/images/bg/header-logo-line-bg.png"],"../../app-assets/images/bg/header-logo-line-bg.png"],"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../app-components/mini-button/mini-button.less":[function(require,module,exports) {
+},{"./bundle-url":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../../app-components/mini-button/mini-button.less":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -28391,7 +28386,12 @@ exports.MiniButton = function (props) {
     className: "minibutton icon icon-" + props.icon
   }));
 };
-},{"react":"../../../node_modules/react/index.js","./mini-button.less":"../../app-components/mini-button/mini-button.less"}],"../../app-assets/images/bg/header-logo-bg.png":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","./mini-button.less":"../../app-components/mini-button/mini-button.less"}],"components/header/header.less":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"./../../../../app-assets/images/bg/header-bg.png":[["header-bg.a411a1a9.png","../../app-assets/images/bg/header-bg.png"],"../../app-assets/images/bg/header-bg.png"],"./../../../../app-assets/images/bg/header-logo-line-bg.png":[["header-logo-line-bg.4293395c.png","../../app-assets/images/bg/header-logo-line-bg.png"],"../../app-assets/images/bg/header-logo-line-bg.png"],"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../app-assets/images/bg/header-logo-bg.png":[function(require,module,exports) {
 module.exports = "/header-logo-bg.42c19fe5.png";
 },{}],"components/header/header.tsx":[function(require,module,exports) {
 "use strict";
@@ -28412,9 +28412,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var React = __importStar(require("react"));
 
-require("./header.less");
-
 var mini_button_1 = require("../../../../app-components/mini-button/mini-button");
+
+require("./header.less");
 
 var logo = require('../../../../app-assets/images/bg/header-logo-bg.png');
 
@@ -28425,17 +28425,24 @@ function Header(props) {
     icon: "close"
   }), /*#__PURE__*/React.createElement("div", {
     className: "logo"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "stripe"
   }), /*#__PURE__*/React.createElement("img", {
     src: String(logo)
-  }), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: "stripe"
   }))));
 }
 
 exports.Header = Header;
-},{"react":"../../../node_modules/react/index.js","./header.less":"components/header/header.less","../../../../app-components/mini-button/mini-button":"../../app-components/mini-button/mini-button.tsx","../../../../app-assets/images/bg/header-logo-bg.png":"../../app-assets/images/bg/header-logo-bg.png"}],"components/hero/hero.tsx":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","../../../../app-components/mini-button/mini-button":"../../app-components/mini-button/mini-button.tsx","./header.less":"components/header/header.less","../../../../app-assets/images/bg/header-logo-bg.png":"../../app-assets/images/bg/header-logo-bg.png"}],"components/hero/hero.less":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/images/hero-gallery/a.png":[function(require,module,exports) {
+module.exports = "/a.6fa458b3.png";
+},{}],"components/hero/hero.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -28453,15 +28460,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var React = __importStar(require("react"));
+
+require("./hero.less");
+
+var logo = require('../../assets/images/hero-gallery/a.png');
 
 function Hero(props) {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     id: "hero"
-  }, "hero"));
+  }, /*#__PURE__*/React.createElement("img", {
+    src: String(logo)
+  })));
 }
 
 exports.Hero = Hero;
-},{"react":"../../../node_modules/react/index.js"}],"components/start-options/start-options.tsx":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","./hero.less":"components/hero/hero.less","../../assets/images/hero-gallery/a.png":"assets/images/hero-gallery/a.png"}],"components/start-options/start-options.less":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/start-options/start-options.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -28479,6 +28497,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var React = __importStar(require("react"));
+
+require("./start-options.less");
 
 function StartOptions(props) {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -28487,7 +28507,7 @@ function StartOptions(props) {
 }
 
 exports.StartOptions = StartOptions;
-},{"react":"../../../node_modules/react/index.js"}],"components/main.less":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less"}],"components/main.less":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -28603,7 +28623,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61545" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63639" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
