@@ -1,6 +1,44 @@
+@import "../../../../app-assets/styles/constants.less";
 
 #start-options {
     flex-grow: 1;
     display: flex;
     flex-direction: row;
+    -webkit-font-smoothing: none;
+    padding: @gg-space;
+    color: @light-gray-color;
+}
+
+#start-options > div {
+    flex-grow: 1;
+}
+
+#start-options > span {
+    width: 2 * @g-space + 1;
+    top: 8px + @gg-space;
+    position: relative;
+}
+
+#start-options > span:before {
+    content: " ";
+    position: absolute;
+    border-right: 1px solid @dark-gray-color;
+    top: 0px;
+    right: @g-space;
+    bottom: 2 * @g-space;
+}
+
+#start-options button:active {
+    opacity: 0.5;
+}
+
+#start-options button {
+    background-color: transparent;
+    color: @white-color;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: (2 * @g-space) 0;
 }

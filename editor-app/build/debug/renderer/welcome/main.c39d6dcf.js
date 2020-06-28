@@ -28466,7 +28466,7 @@ require("./hero.less");
 var logo = require('../../assets/images/hero-gallery/a.png');
 
 function Hero(props) {
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("section", {
     id: "hero"
   }, /*#__PURE__*/React.createElement("img", {
     src: String(logo)
@@ -28479,7 +28479,11 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/start-options/start-options.tsx":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/images/button/new-game-btn.png":[function(require,module,exports) {
+module.exports = "/new-game-btn.a2d926fa.png";
+},{}],"assets/images/button/wiki-btn.png":[function(require,module,exports) {
+module.exports = "/wiki-btn.ef3fa750.png";
+},{}],"components/start-options/c.welcome.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -28500,14 +28504,112 @@ var React = __importStar(require("react"));
 
 require("./start-options.less");
 
+var icoNewGame = require('../../assets/images/button/new-game-btn.png');
+
+var icoWiki = require('../../assets/images/button/wiki-btn.png');
+
+function Welcome(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "welcome"
+  }, /*#__PURE__*/React.createElement("h1", null, "\u2726 Welcome!"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", null, /*#__PURE__*/React.createElement("img", {
+    src: String(icoNewGame)
+  }), "create new game")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", null, /*#__PURE__*/React.createElement("img", {
+    src: String(icoWiki)
+  }), "read the docs"))));
+}
+
+exports.Welcome = Welcome;
+},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less","../../assets/images/button/new-game-btn.png":"assets/images/button/new-game-btn.png","../../assets/images/button/wiki-btn.png":"assets/images/button/wiki-btn.png"}],"components/start-options/c.recent.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+require("./start-options.less");
+
+function Recent(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "recent"
+  }, "\u2726 Recent projects");
+}
+
+exports.Recent = Recent;
+},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less"}],"components/start-options/c.news.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+require("./start-options.less");
+
+function News(props) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "news"
+  }, "\u2726 The News Console");
+}
+
+exports.News = News;
+},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less"}],"components/start-options/start-options.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+require("./start-options.less");
+
+var c_welcome_1 = require("./c.welcome");
+
+var c_recent_1 = require("./c.recent");
+
+var c_news_1 = require("./c.news");
+
 function StartOptions(props) {
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("section", {
     id: "start-options"
-  }, "start options"));
+  }, /*#__PURE__*/React.createElement(c_welcome_1.Welcome, null), /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement(c_recent_1.Recent, null), /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement(c_news_1.News, null)));
 }
 
 exports.StartOptions = StartOptions;
-},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less"}],"components/main.less":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less","./c.welcome":"components/start-options/c.welcome.tsx","./c.recent":"components/start-options/c.recent.tsx","./c.news":"components/start-options/c.news.tsx"}],"components/main.less":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);

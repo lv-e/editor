@@ -8,8 +8,7 @@
   background: url("bg-mini-btn_hover.406c57d8.png") no-repeat 0 0;
 }
 .minibutton:active {
-  height: 15px;
-  padding-top: 1px;
+  opacity: 0.5;
 }
 .minibutton img {
   content: url("1px.77a0d880.png");
@@ -98,6 +97,38 @@
   flex-grow: 1;
   display: flex;
   flex-direction: row;
+  -webkit-font-smoothing: none;
+  padding: 9px;
+  color: #C3BFCF;
+}
+#start-options > div {
+  flex-grow: 1;
+}
+#start-options > span {
+  width: 13px;
+  top: 17px;
+  position: relative;
+}
+#start-options > span:before {
+  content: " ";
+  position: absolute;
+  border-right: 1px solid #65636B;
+  top: 0px;
+  right: 6px;
+  bottom: 12px;
+}
+#start-options button:active {
+  opacity: 0.5;
+}
+#start-options button {
+  background-color: transparent;
+  color: #F5FAFF;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px 0;
 }
 
 @font-face {
@@ -115,16 +146,22 @@
   font-size: 100%;
   font: inherit;
   outline: none;
-  font-family: cellphone;
+  font-family: cellphone, sans-serif;
   font-size: 8px;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
 }
-body {
+html,
+body,
+#app {
   background-color: #78767F;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+}
+img {
+  pointer-events: none;
 }
 #welcome {
   display: flex;

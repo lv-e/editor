@@ -7,7 +7,7 @@ const logo = require('../../assets/images/hero-gallery/a.png');
 
 export function Hero (props) {
     return <>
-    <div id="hero">
+    <section id="hero">
         <img src={String(logo)}/>
-    </div></>
+    </section></>
 }

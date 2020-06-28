@@ -15,17 +15,22 @@
     font-size: 100%;
     font: inherit;
     outline: none;
-    font-family: cellphone;
+    font-family: cellphone, sans-serif;
     font-size: 8px;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
 }
 
-body {
+html, body, #app {
     background-color: #78767F;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+}
+
+img {
+    pointer-events: none
 }
 
 #welcome {
