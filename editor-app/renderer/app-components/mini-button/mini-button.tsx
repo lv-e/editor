@@ -8,7 +8,7 @@ interface MiniButtonProps {
 
 export const MiniButton: React.SFC<MiniButtonProps> = (props) => {
     return (
-        <button className="minibutton">
+        <button className="colorize minibutton">
             <img src="1px.png" className={`minibutton icon icon-${props.icon}`}/>
         </button>
     )

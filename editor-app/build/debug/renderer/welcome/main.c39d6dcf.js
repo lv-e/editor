@@ -28357,7 +28357,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"./../../app-assets/images/button/bg-mini-btn.png":[["bg-mini-btn.3e15b04e.png","../../app-assets/images/button/bg-mini-btn.png"],"../../app-assets/images/button/bg-mini-btn.png"],"./../../app-assets/images/button/bg-mini-btn_hover.png":[["bg-mini-btn_hover.406c57d8.png","../../app-assets/images/button/bg-mini-btn_hover.png"],"../../app-assets/images/button/bg-mini-btn_hover.png"],"./../../app-assets/images/button/1px.png":[["1px.77a0d880.png","../../app-assets/images/button/1px.png"],"../../app-assets/images/button/1px.png"],"./../../app-assets/images/button/ico-mini-btn-close.png":[["ico-mini-btn-close.3999b4a2.png","../../app-assets/images/button/ico-mini-btn-close.png"],"../../app-assets/images/button/ico-mini-btn-close.png"],"./../../app-assets/images/button/ico-mini-btn-minimize.png":[["ico-mini-btn-minimize.4f96ad7f.png","../../app-assets/images/button/ico-mini-btn-minimize.png"],"../../app-assets/images/button/ico-mini-btn-minimize.png"],"./../../app-assets/images/button/ico-mini-btn-maximize.png":[["ico-mini-btn-maximize.66a9423e.png","../../app-assets/images/button/ico-mini-btn-maximize.png"],"../../app-assets/images/button/ico-mini-btn-maximize.png"],"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../app-components/mini-button/mini-button.tsx":[function(require,module,exports) {
+},{"./../../app-assets/images/button/bg-mini-btn.png":[["bg-mini-btn.3e15b04e.png","../../app-assets/images/button/bg-mini-btn.png"],"../../app-assets/images/button/bg-mini-btn.png"],"./../../app-assets/images/button/1px.png":[["1px.77a0d880.png","../../app-assets/images/button/1px.png"],"../../app-assets/images/button/1px.png"],"./../../app-assets/images/button/ico-mini-btn-close.png":[["ico-mini-btn-close.3999b4a2.png","../../app-assets/images/button/ico-mini-btn-close.png"],"../../app-assets/images/button/ico-mini-btn-close.png"],"./../../app-assets/images/button/ico-mini-btn-minimize.png":[["ico-mini-btn-minimize.4f96ad7f.png","../../app-assets/images/button/ico-mini-btn-minimize.png"],"../../app-assets/images/button/ico-mini-btn-minimize.png"],"./../../app-assets/images/button/ico-mini-btn-maximize.png":[["ico-mini-btn-maximize.66a9423e.png","../../app-assets/images/button/ico-mini-btn-maximize.png"],"../../app-assets/images/button/ico-mini-btn-maximize.png"],"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../app-components/mini-button/mini-button.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -28380,7 +28380,7 @@ require("./mini-button.less");
 
 exports.MiniButton = function (props) {
   return /*#__PURE__*/React.createElement("button", {
-    className: "minibutton"
+    className: "colorize minibutton"
   }, /*#__PURE__*/React.createElement("img", {
     src: "1px.png",
     className: "minibutton icon icon-" + props.icon
@@ -28479,11 +28479,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/images/button/new-game-btn.png":[function(require,module,exports) {
-module.exports = "/new-game-btn.a2d926fa.png";
-},{}],"assets/images/button/wiki-btn.png":[function(require,module,exports) {
-module.exports = "/wiki-btn.ef3fa750.png";
-},{}],"components/start-options/c.welcome.tsx":[function(require,module,exports) {
+},{"./../../assets/images/button/new-game-btn.png":[["new-game-btn.a2d926fa.png","assets/images/button/new-game-btn.png"],"assets/images/button/new-game-btn.png"],"./../../assets/images/button/wiki-btn.png":[["wiki-btn.ef3fa750.png","assets/images/button/wiki-btn.png"],"assets/images/button/wiki-btn.png"],"./../../../../app-assets/images/icos/ico-cartridge.png":[["ico-cartridge.c9470321.png","../../app-assets/images/icos/ico-cartridge.png"],"../../app-assets/images/icos/ico-cartridge.png"],"./../../../../app-assets/images/icos/ico-folder.png":[["ico-folder.4151ca67.png","../../app-assets/images/icos/ico-folder.png"],"../../app-assets/images/icos/ico-folder.png"],"./../../../../app-assets/images/icos/inline-ico-folder.png":[["inline-ico-folder.92421724.png","../../app-assets/images/icos/inline-ico-folder.png"],"../../app-assets/images/icos/inline-ico-folder.png"],"_css_loader":"../../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/start-options/c.welcome.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -28504,22 +28500,22 @@ var React = __importStar(require("react"));
 
 require("./start-options.less");
 
-var icoNewGame = require('../../assets/images/button/new-game-btn.png');
-
-var icoWiki = require('../../assets/images/button/wiki-btn.png');
-
 function Welcome(props) {
   return /*#__PURE__*/React.createElement("div", {
     className: "welcome"
-  }, /*#__PURE__*/React.createElement("h1", null, "\u2726 Welcome!"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", null, /*#__PURE__*/React.createElement("img", {
-    src: String(icoNewGame)
-  }), "create new game")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", null, /*#__PURE__*/React.createElement("img", {
-    src: String(icoWiki)
+  }, /*#__PURE__*/React.createElement("h1", null, "\u2726 Welcome!"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "colorize create-new"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "icon new-game"
+  }), "create new game")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "colorize read-docs"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "icon new-game"
   }), "read the docs"))));
 }
 
 exports.Welcome = Welcome;
-},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less","../../assets/images/button/new-game-btn.png":"assets/images/button/new-game-btn.png","../../assets/images/button/wiki-btn.png":"assets/images/button/wiki-btn.png"}],"components/start-options/c.recent.tsx":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","./start-options.less":"components/start-options/start-options.less"}],"components/start-options/c.recent.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -28541,9 +28537,42 @@ var React = __importStar(require("react"));
 require("./start-options.less");
 
 function Recent(props) {
+  var games = [{
+    name: "zelda",
+    path: "/opt/games/lvnder"
+  }, {
+    name: "mario",
+    path: "/tmp/tests"
+  }, {
+    name: "tenis",
+    path: "~/Desktop/games"
+  }];
+  var tags = games.map(function (game) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("li", {
+      className: "recent-game"
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "colorize"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "ico-cartridge"
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "title"
+    }, game.name), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("i", {
+      className: "inline-ico-folder"
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "path"
+    }, game.path))));
+  });
   return /*#__PURE__*/React.createElement("div", {
     className: "recent"
-  }, "\u2726 Recent projects");
+  }, /*#__PURE__*/React.createElement("h1", null, "\u2726 Recent projects"), /*#__PURE__*/React.createElement("ul", null, tags, /*#__PURE__*/React.createElement("li", {
+    className: "open-game"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "colorize"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "ico-folder"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "title"
+  }, "open another project ..."), /*#__PURE__*/React.createElement("br", null)))));
 }
 
 exports.Recent = Recent;
