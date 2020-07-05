@@ -10,7 +10,9 @@ const logo = require('../../../../app-assets/images/bg/header-logo-bg.png');
 export function Header (props) {
 
     function handleClose(event:React.MouseEvent<HTMLButtonElement, MouseEvent>){
-        Electron.ipcRenderer.send("welcome:close")
+        const electron = window.require('electron');
+        const ipcRenderer  = electron.ipcRenderer;
+        ipcRenderer.send("welcome:close")
     }
 
     return <>
