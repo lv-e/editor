@@ -5,6 +5,8 @@ import * as SimulatorMain from './main-simulator/simulator-main'
 
 export const isDevelopment = process.env.NODE_ENV !== 'production'
 
+app.allowRendererProcessReuse = true
+
 app.on('ready', () => {
 
     console.log("[lv editor] electron is ready ⚡️")
