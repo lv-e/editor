@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ipc } from "[comps]/electron/ipcRenderer";
 import "./start-options.less"
 
 export function Recent (props) {
@@ -25,7 +26,7 @@ export function Recent (props) {
         <ul>
             {tags}
             <li className="open-game">
-                <button className="colorize">
+                <button className="colorize" onClick={ e => ipc("welcome:open-project") }>
                     <i className="ico-folder"/><span className="title">open another project ...</span><br/>
                 </button>
             </li>

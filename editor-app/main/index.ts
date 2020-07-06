@@ -1,7 +1,8 @@
-import { app, ipcMain } from "electron"
-import * as WelcomeMain from './main-welcome/welcome-main'
-import * as EditorMain from './main-editor/editor-main'
-import * as SimulatorMain from './main-simulator/simulator-main'
+import { app, ipcMain } from 'electron';
+
+import * as EditorMain from './main-editor/editor-main';
+import * as SimulatorMain from './main-simulator/simulator-main';
+import * as WelcomeMain from './main-welcome/welcome-main';
 
 export const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -20,7 +21,5 @@ app.on('ready', () => {
 })
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
+    app.quit()
 })

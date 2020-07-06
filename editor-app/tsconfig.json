@@ -1,0 +1,25 @@
+{
+    "include": ["./main/**/*.ts"],
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2016",
+        "moduleResolution": "Node",
+        "sourceMap": true,
+        "strict": false,
+        "outDir": "dist",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "baseUrl": "./",
+        "paths": {
+          "[comps]/*": ["./renderer/app-components/*"],
+          "[assets]/*": ["./renderer/app-assets/*"]
+        }
+    },
+    "compileOnSave": true,
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*",
+        "dist"
+    ]
+}

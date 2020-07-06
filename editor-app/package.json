@@ -2,8 +2,8 @@
   "name": "editor-app",
   "version": "0.0.0",
   "scripts": {
-    "dev:electron": "tsc -p main.tsconfig.json && electron ./dist",
-    "dev:renderer-welcome": "parcel renderer/welcome/src/index.html --port 4100 --out-dir build/debug/renderer/welcome",
+    "dev:electron": "tsc -p tsconfig.json && electron ./dist",
+    "dev:renderer-welcome": "parcel renderer/welcome/src/index.html --port 4100 --out-dir dist/renderer/welcome",
     "dev:mix-electron": "wait-on http://localhost:4100 && yarn dev:electron",
     "dev": "concurrently -k \"yarn dev:mix-electron\" \"yarn dev:renderer-welcome\""
   },
@@ -14,10 +14,12 @@
     "dockerode-ts": "^0.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.4",
     "@lv-game-editor/lv-cli": "^1.0.24",
     "@types/node": "^12.11.1",
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
+    "babel-plugin-module-resolver": "^4.0.0",
     "concurrently": "^5.1.0",
     "electron": "^8.0.1",
     "less": "^3.11.3",

@@ -1,0 +1,13 @@
+{
+    "plugins": [
+        [
+            "module-resolver",{
+                "root": ["./renderer", "./main"],
+                "alias": {
+                    "[comps]": "./renderer/app-components",
+                    "[assets]": "./renderer/app-assets"
+                }
+            }
+        ]
+    ]
+}

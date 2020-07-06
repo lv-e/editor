@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, dialog } from "electron"
+import { BrowserWindow, dialog, ipcMain } from "electron"
 import { join } from 'path'
 import { format as formatUrl } from 'url'
 import { isDevelopment } from ".."
@@ -10,15 +10,17 @@ export function bootstrap() {
     ipcMain.on('welcome:close', closeWelcome)
 }
 
-let welcomeWindow:BrowserWindow = null
+let welcomeWindow:BrowserWindow | null = null
 
 function showOpenFileDialog(event:Electron.IpcMainEvent){
+
+    if (welcomeWindow == null) return
 
     // focus on welcome window, recreating if necessary
     presentWelcome(event)
     
     // show an open file dialog
-    dialog.showOpenDialog(null,{
+    dialog.showOpenDialog( null, {
         title: "open project", properties: ["openFile"],
         filters:[{ name: "project", extensions:["lvproject"] }]
     }).then( (data:Electron.OpenDialogReturnValue) => {
@@ -31,7 +33,7 @@ function showOpenFileDialog(event:Electron.IpcMainEvent){
 }
 
 function closeWelcome(event:Electron.IpcMainEvent) {
-    welcomeWindow.close()
+    if(welcomeWindow) welcomeWindow.close()
     welcomeWindow = null
 }
 
