@@ -9,3 +9,15 @@
 @gray-color: #ABA7B5;
 @light-gray-color: #C3BFCF;
 @white-color: #e6e6e6;
+
+/* Mixin to generate random number;
+   int should be 0 or 1, 1 being to make it an integer 
+*/
+.makeRandom(@min: 0, @max: @min+1, @int: 0) { 
+    .checkInt() {
+        @getNum: `Math.random() * (@{max} - @{min} + @{int})`;
+        @base: unit(`@{int} == 1 ? Math.floor(@{getNum}) : @{getNum}`);
+    }
+    .checkInt();
+    @randNum: @base + @min;
+}

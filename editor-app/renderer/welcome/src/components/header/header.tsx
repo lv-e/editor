@@ -8,13 +8,12 @@ export function Header (props) {
 
     const logo = require('[assets]/images/bg/header-logo-bg.png');
 
-    return <>
-    <section id="welcome-header">
-        <MiniButton icon="close" onclick={ e => ipc("welcome:close") }/>
-        <div className="logo">
-            <span className="stripe"/>
-            <img src={String(logo)}/>
-            <span className="stripe"/>
-        </div>
-    </section></>
+    return  <section id="welcome-header">
+                <MiniButton icon="close" onclick={ e => ipc("welcome:close") }/>
+                    <div className="logo">
+                        <span className="stripe"/>
+                        <img src={String(logo)}/>
+                        <span className="stripe"/>
+                    </div>
+            </section>
 }

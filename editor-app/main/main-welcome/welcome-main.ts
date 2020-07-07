@@ -1,7 +1,9 @@
-import { BrowserWindow, dialog, ipcMain } from "electron"
-import { join } from 'path'
-import { format as formatUrl } from 'url'
-import { isDevelopment } from ".."
+import { BrowserWindow, dialog, ipcMain } from "electron";
+import { join } from 'path';
+import { format as formatUrl } from 'url';
+import { isDevelopment } from "..";
+
+import Store = require('electron-store');
 
 // IPC messages for welcome
 export function bootstrap() {
@@ -23,10 +25,16 @@ function showOpenFileDialog(event:Electron.IpcMainEvent){
     dialog.showOpenDialog( null, {
         title: "open project", properties: ["openFile"],
         filters:[{ name: "project", extensions:["lvproject"] }]
+        
     }).then( (data:Electron.OpenDialogReturnValue) => {
         if (!data.canceled) {
             let choosen = data.filePaths[0]
             event.reply("welcome:project-choosen", choosen.trim())
+            
+            const store = new Store()
+            store.set('unicorn', '🦄')
+	        console.log(store.get('unicorn'))
+            
             ipcMain.emit("welcome:close")
         }
     })
