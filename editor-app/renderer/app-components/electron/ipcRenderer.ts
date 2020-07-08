@@ -1,19 +1,38 @@
 import { IpcRenderer } from "electron";
 
-export function ipc() : IpcRenderer {
-    const electron = window.require('electron');
-    return electron.ipcRenderer;
-}
+export type MainProcess = ("welcome"|"editor"|"simulator")
 
-export type availableWindows = ("welcome"|"editor"|"simulator")
-export function fetch(context:availableWindows, property:string, then:(data:any) => void){    
-    try {
-        ipc().once(`${context}:set-${property}`, (_event, args) => then(args))
-        ipc().send(`${context}:get-${property}`)
-    } catch (e) {
-        console.error(e)
-        then(null)
+export class IPCChannel {
+
+    readonly mainProcess:MainProcess
+
+    constructor(mainProcess:MainProcess){
+        this.mainProcess = mainProcess
+    }
+
+    send(message:string, params?:any) {
+        electronIPC().send(`${this.mainProcess}:${message}`, params)
+    }
+
+    fetch(property:string, then:(data:any) => void) {
+        try {
+            electronIPC().once(`${this.mainProcess}:set-${property}`, (_event, args) => then(args))
+            electronIPC().send(`${this.mainProcess}:get-${property}`)
+        } catch (e) {
+            console.error(e)
+            then(null)
+        }
     }
 }
 
+export var ipc = {
+    get welcome(): IPCChannel { return new IPCChannel("welcome") },
+    get editor(): IPCChannel { return new IPCChannel("editor") },
+    get simulator(): IPCChannel { return new IPCChannel("simulator") }
+}
+
+function electronIPC() : IpcRenderer {
+    const electron = window.require('electron');
+    return electron.ipcRenderer;
+}
 

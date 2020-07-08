@@ -40,9 +40,6 @@ export class RecentFiles {
 
     get getAll():FileEntry[]{
         let response:FileEntry[] = []
-        response.push(new FileEntry("/opt/games/zelda.lvproject"))
-        response.push(new FileEntry("/tmp/github/games/mario.lvproject"))
-        response.push(new FileEntry("/tmp/data/games/tetris.lvproject"))
         response.push(new FileEntry("/tmp/github/games/pokemon.lvproject"))
         response.push(new FileEntry("/tmp/github/deltas/pokemon.lvproject"))
         return response
