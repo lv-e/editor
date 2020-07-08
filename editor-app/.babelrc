@@ -1,11 +1,13 @@
 {
+    "presets": [ "es2016"],
     "plugins": [
         [
             "module-resolver",{
                 "root": ["./renderer", "./main"],
                 "alias": {
                     "[comps]": "./renderer/app-components",
-                    "[assets]": "./renderer/app-assets"
+                    "[assets]": "./renderer/app-assets",
+                    "[managers]": "./main/managers"
                 }
             }
         ]

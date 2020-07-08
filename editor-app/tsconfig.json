@@ -13,7 +13,8 @@
         "baseUrl": "./",
         "paths": {
           "[comps]/*": ["./renderer/app-components/*"],
-          "[assets]/*": ["./renderer/app-assets/*"]
+          "[assets]/*": ["./renderer/app-assets/*"],
+          "[managers]/*": ["./main/managers/*"]
         }
     },
     "compileOnSave": true,

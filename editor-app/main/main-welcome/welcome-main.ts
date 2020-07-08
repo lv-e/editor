@@ -2,6 +2,7 @@ import { BrowserWindow, dialog, ipcMain } from "electron";
 import { join } from 'path';
 import { format as formatUrl } from 'url';
 import { isDevelopment } from "..";
+import { RecentFiles } from "../managers/recent-files";
 
 import Store = require('electron-store');
 
@@ -10,9 +11,16 @@ export function bootstrap() {
     ipcMain.on('welcome:open-project', showOpenFileDialog)
     ipcMain.on('welcome:show', presentWelcome)
     ipcMain.on('welcome:close', closeWelcome)
+    ipcMain.on('welcome:get-recent-projects', getRecentProjects)
 }
 
 let welcomeWindow:BrowserWindow | null = null
+
+function getRecentProjects(event:Electron.IpcMainEvent){
+    const files = RecentFiles.shared().getAll
+    console.log("sending recent files...")
+    event.reply("welcome:set-recent-projects", files)
+}
 
 function showOpenFileDialog(event:Electron.IpcMainEvent){
 

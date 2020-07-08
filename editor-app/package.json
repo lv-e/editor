@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.10.4",
     "chokidar": "^3.3.1",
     "dockerode": "^3.1.0",
     "dockerode-ts": "^0.3.2",
@@ -21,7 +22,8 @@
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-preset-react": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2016": "^6.24.1",
     "concurrently": "^5.1.0",
     "electron": "^8.0.1",
     "less": "^3.11.3",
