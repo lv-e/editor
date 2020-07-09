@@ -2,6 +2,8 @@
 import { existsSync } from "fs";
 import * as path from "path";
 
+import Store = require('electron-store');
+
 export class FileEntry {
 
     readonly filepath : string;
@@ -31,6 +33,8 @@ export class RecentFiles {
 
     private static instance: RecentFiles;
     private constructor() { }
+    private static readonly store_key = "welcome.recent_files"
+    private static readonly store_limit = 3
 
     static shared(): RecentFiles {
         if (!RecentFiles.instance) 
@@ -38,10 +42,32 @@ export class RecentFiles {
         return RecentFiles.instance;
     }
 
+    add(entry:FileEntry) {
+        try {
+            let all:string[] = this.getAll
+                .filter( e => e.isEqual(entry) == false)
+                .filter( e => e.exists)
+                .map( e => e.filepath)
+
+            all.splice(0, 0, entry.filepath)
+            all = all.slice(0,3)
+            
+            new Store().set(RecentFiles.store_key, all)
+            console.info(`saved recent file, that now is: ${JSON.stringify(all)}`)
+        } catch (e) {
+            console.error("can't save recent files\n", e)
+        }
+    }
+
     get getAll():FileEntry[]{
-        let response:FileEntry[] = []
-        response.push(new FileEntry("/tmp/github/games/pokemon.lvproject"))
-        response.push(new FileEntry("/tmp/github/deltas/pokemon.lvproject"))
-        return response
+        try {
+            return new Store()
+                .get(RecentFiles.store_key, [])
+                .map(e => new FileEntry(e))
+                .filter( e => e.exists)
+        } catch (e) {
+            console.error("can't load recent files\n", e)
+            return []
+        }
     }
 }

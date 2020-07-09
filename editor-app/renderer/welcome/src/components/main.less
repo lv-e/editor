@@ -44,8 +44,13 @@ img {
     height: 100%;
 }
 
+.colorize {
+    transition: filter 120ms;
+    transition-timing-function: ease-in-out;
+}
+
 .colorize:hover {
-    filter: hue-rotate(320deg) saturate(2) brightness(1.2);
+    filter: hue-rotate(-40deg) saturate(2) brightness(1.2);
 }
 
 .colorize:active {

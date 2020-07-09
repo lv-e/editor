@@ -2,24 +2,19 @@ import { BrowserWindow, dialog, ipcMain } from "electron";
 import { join } from 'path';
 import { format as formatUrl } from 'url';
 import { isDevelopment } from "..";
-import { RecentFiles } from "../managers/recent-files";
+import { ipc } from "../components/electron/ipcMain";
+import { FileEntry, RecentFiles } from "../managers/recent-files";
 
-import Store = require('electron-store');
+let welcomeWindow:BrowserWindow | null = null
 
 // IPC messages for welcome
 export function bootstrap() {
     ipcMain.on('welcome:open-project', showOpenFileDialog)
     ipcMain.on('welcome:show', presentWelcome)
     ipcMain.on('welcome:close', closeWelcome)
-    ipcMain.on('welcome:get-recent-projects', getRecentProjects)
-}
 
-let welcomeWindow:BrowserWindow | null = null
-
-function getRecentProjects(event:Electron.IpcMainEvent){
-    const files = RecentFiles.shared().getAll
-    console.log("sending recent files...")
-    event.reply("welcome:set-recent-projects", files)
+    ipc.welcome.provide("recent-projects", _e => RecentFiles.shared().getAll)
+    
 }
 
 function showOpenFileDialog(event:Electron.IpcMainEvent){
@@ -36,14 +31,11 @@ function showOpenFileDialog(event:Electron.IpcMainEvent){
         
     }).then( (data:Electron.OpenDialogReturnValue) => {
         if (!data.canceled) {
+            
             let choosen = data.filePaths[0]
+            RecentFiles.shared().add(new FileEntry(choosen))
             event.reply("welcome:project-choosen", choosen.trim())
-            
-            const store = new Store()
-            store.set('unicorn', '🦄')
-	        console.log(store.get('unicorn'))
-            
-            ipcMain.emit("welcome:close")
+            //ipcMain.emit("welcome:close")
         }
     })
 }

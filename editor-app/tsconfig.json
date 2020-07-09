@@ -14,7 +14,8 @@
         "paths": {
           "[comps]/*": ["./renderer/app-components/*"],
           "[assets]/*": ["./renderer/app-assets/*"],
-          "[managers]/*": ["./main/managers/*"]
+          "[managers]/*": ["./main/managers/*"],
+          "[root]/*": ["./*"]
         }
     },
     "compileOnSave": true,

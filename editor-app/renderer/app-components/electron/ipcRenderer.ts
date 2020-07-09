@@ -2,7 +2,7 @@ import { IpcRenderer } from "electron";
 
 export type MainProcess = ("welcome"|"editor"|"simulator")
 
-export class IPCChannel {
+export class IPCRendererChannel {
 
     readonly mainProcess:MainProcess
 
@@ -26,9 +26,9 @@ export class IPCChannel {
 }
 
 export var ipc = {
-    get welcome(): IPCChannel { return new IPCChannel("welcome") },
-    get editor(): IPCChannel { return new IPCChannel("editor") },
-    get simulator(): IPCChannel { return new IPCChannel("simulator") }
+    get welcome(): IPCRendererChannel { return new IPCRendererChannel("welcome") },
+    get editor(): IPCRendererChannel { return new IPCRendererChannel("editor") },
+    get simulator(): IPCRendererChannel { return new IPCRendererChannel("simulator") }
 }
 
 function electronIPC() : IpcRenderer {

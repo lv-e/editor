@@ -8,9 +8,10 @@ export function Recent () {
     
     let [games, setGames] = useState<FileEntry[]|null>(null)
     
-    useEffect(() => 
-        games == null ? ipc.welcome.fetch("recent-projects", gs => setGames(gs)) : null
-    )
+    useEffect(() => {
+        if (games == null) 
+            ipc.welcome.fetch("recent-projects", gs => setGames(gs))
+    })
 
     return <div className="recent">
         <h1>✦ Recent projects</h1>
