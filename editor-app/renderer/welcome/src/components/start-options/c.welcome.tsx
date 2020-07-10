@@ -1,12 +1,14 @@
 import * as React from "react";
 import "./start-options.less"
+import { ipc } from "[comps]/electron/ipcRenderer";
 
 
 export function Welcome (props) {
     return <div className="welcome">
         <h1>✦ Welcome!</h1>
         <ul>
-            <li><button className="colorize create-new">
+            <li><button className="colorize create-new" 
+            onClick={ e => ipc.welcome.fetch('new-project', e => console.log(e)) }>
                 <i className="icon new-game"/>
                 create new game
             </button></li>

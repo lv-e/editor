@@ -1,43 +1,27 @@
-import { BrowserWindow, dialog, ipcMain } from "electron";
+import { BrowserWindow } from "electron";
 import { join } from 'path';
 import { format as formatUrl } from 'url';
 import { isDevelopment } from "..";
 import { ipc } from "../components/electron/ipcMain";
-import { FileEntry, RecentFiles } from "../managers/recent-files";
+import { RecentFiles } from "../managers/recent-files";
+import { createNewProject } from "./message-handlers/new-project";
+import { openProject } from "./message-handlers/open-project";
 
 let welcomeWindow:BrowserWindow | null = null
 
 // IPC messages for welcome
 export function bootstrap() {
-    ipcMain.on('welcome:open-project', showOpenFileDialog)
-    ipcMain.on('welcome:show', presentWelcome)
-    ipcMain.on('welcome:close', closeWelcome)
-
-    ipc.welcome.provide("recent-projects", _e => RecentFiles.shared().getAll)
     
-}
-
-function showOpenFileDialog(event:Electron.IpcMainEvent){
-
-    if (welcomeWindow == null) return
-
-    // focus on welcome window, recreating if necessary
-    presentWelcome(event)
-    
-    // show an open file dialog
-    dialog.showOpenDialog( null, {
-        title: "open project", properties: ["openFile"],
-        filters:[{ name: "project", extensions:["lvproject"] }]
-        
-    }).then( (data:Electron.OpenDialogReturnValue) => {
-        if (!data.canceled) {
-            
-            let choosen = data.filePaths[0]
-            RecentFiles.shared().add(new FileEntry(choosen))
-            event.reply("welcome:project-choosen", choosen.trim())
-            //ipcMain.emit("welcome:close")
-        }
-    })
+    ipc.welcome
+        .on('show', presentWelcome)
+        .on('close', closeWelcome)
+        .on('open-project', openProject) 
+        .provideAsync("new-project", (_args, completion) => {
+            createNewProject( file => completion(file))
+        })
+        .provideSync("recent-projects",  _e => {
+            return RecentFiles.shared().getAll
+        })
 }
 
 function closeWelcome(event:Electron.IpcMainEvent) {
