@@ -1,8 +1,8 @@
-import { app, ipcMain } from 'electron';
-
+import { app, ipcMain, Menu, MenuItemConstructorOptions } from 'electron';
 import * as EditorMain from './main-editor/editor-main';
 import * as SimulatorMain from './main-simulator/simulator-main';
 import * as WelcomeMain from './main-welcome/welcome-main';
+
 
 export const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -17,6 +17,19 @@ app.on('ready', () => {
     EditorMain.bootstrap()
     SimulatorMain.bootstrap()
 
+    const template: Electron.MenuItemConstructorOptions[] = [
+        {
+            label: 'lvndr',
+            submenu: ([
+                { role: 'about' },
+                { role: 'toggleDevTools' }
+            ] as MenuItemConstructorOptions[])
+        }
+    ]
+
+    const menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
+    
     ipcMain.emit("welcome:show")
 })
 
