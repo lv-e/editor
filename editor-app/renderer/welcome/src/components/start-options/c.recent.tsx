@@ -46,7 +46,7 @@ function RecentGame ({game}:{game:FileEntry}) {
 function OpenAnother(){
     return  <li className="open-game">
                 <button className="colorize" onClick={ e => ipc.welcome.send("open-project") }>
-                    <i className="ico-folder"/><span className="title">open another project ...</span><br/>
+                    <i className="ico-folder"/><span className="title">open project ...</span><br/>
                 </button>
             </li>
 }

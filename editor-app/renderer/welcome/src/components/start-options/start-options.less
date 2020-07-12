@@ -12,13 +12,15 @@
 
 #start-options > div {
     width: 100%/3;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #start-options > span {
-    width: 2 * @g-space + 1;
-    top: 8px + @gg-space;
+    width: 1px;
+    top: 2 * @g-space;
+    bottom: 0px;
     position: relative;
+    margin: 0px @gg-space;
 }
 
 #start-options > span:before {
@@ -26,7 +28,6 @@
     position: absolute;
     border-right: 1px solid @dark-gray-color;
     top: 0px;
-    right: @g-space;
     bottom: 2 * @g-space;
 }
 
@@ -75,7 +76,7 @@
 }
 
 .open-game {
-    padding: @m-space @g-space;
+    padding: 0 @g-space;
 }
 
 .recent-game i, .open-game i {
@@ -90,7 +91,7 @@
 
 .recent-game button i:nth-of-type(2) {
     margin-left: @m-space;
-    margin-top: @m-space;
+    margin-top: @g-space;
 }
 
 .recent-game .title, .open-game .title {
@@ -117,4 +118,25 @@
     background-image: url("../../../../app-assets/images/icos/inline-ico-folder.png");
     width: 20px;
     height: 8px;
+}
+
+
+.news > .log {
+    border-image: url("../../../../app-assets/images/bg/dark-gray-box.png");
+    border-image-slice: 3 3 fill;
+    border-image-width: 3px 3px;
+    padding: @gg-space;
+    margin-top: @g-space;
+    height: 158px;
+    overflow: scroll;
+    overscroll-behavior: contain;
+}
+
+.log h3 {
+    color: @gray-color;
+}
+
+.log p {
+    color: @dark-gray-color;
+    padding-bottom: @gg-space;
 }
