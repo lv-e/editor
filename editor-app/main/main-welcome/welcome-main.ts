@@ -5,6 +5,7 @@ import { isDevelopment } from "..";
 import { ipc } from "../components/electron/ipcMain";
 import { RecentFiles } from "../managers/recent-files";
 import { createNewProject } from "./message-handlers/new-project";
+import { fetchNews } from "./message-handlers/news";
 import { openProject } from "./message-handlers/open-project";
 
 let welcomeWindow:BrowserWindow | null = null
@@ -18,6 +19,9 @@ export function bootstrap() {
         .on('open-project', openProject) 
         .provideAsync("new-project", (_args, completion) => {
             createNewProject( file => completion(file))
+        })
+        .provideAsync('news', (_args, completion) => {
+            fetchNews( news => completion(news))
         })
         .provideSync("recent-projects",  _e => {
             return RecentFiles.shared().getAll
