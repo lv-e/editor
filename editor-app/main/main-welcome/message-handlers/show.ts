@@ -3,13 +3,16 @@ import { BrowserWindow } from "electron";
 import { join } from "path";
 import { format } from 'url';
 import { isDevelopment } from "../..";
-import { setWelcomeWindow, welcomeWindow } from "../welcome-main";
 
-export function show() {
+export function show(
+    getter:() => BrowserWindow,
+    setter:(window:BrowserWindow) => BrowserWindow) {
+
+    let welcomeWindow = getter()
     
     if (welcomeWindow == null) {
 
-        setWelcomeWindow(
+        welcomeWindow = setter(
             new BrowserWindow({
                 width:600, height:400,
                 frame: false, resizable: false,

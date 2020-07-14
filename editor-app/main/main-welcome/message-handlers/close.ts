@@ -1,6 +1,11 @@
-import { setWelcomeWindow, welcomeWindow } from "../welcome-main"
+import { BrowserWindow } from "electron"
 
-export function close() {
+export function close(
+    getter:() => BrowserWindow,
+    setter:(window:BrowserWindow) => BrowserWindow) {
+
+    const welcomeWindow = getter() 
     if(welcomeWindow) welcomeWindow.close()
-    setWelcomeWindow(null)
+    setter(null)
+    
 }

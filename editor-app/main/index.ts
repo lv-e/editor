@@ -1,7 +1,8 @@
-import { app, ipcMain, Menu, MenuItemConstructorOptions } from 'electron';
+import { app, Menu, MenuItemConstructorOptions } from 'electron';
+import { ipc } from './components/electron/ipcMain';
 import * as EditorMain from './main-editor/editor-main';
 import * as SimulatorMain from './main-simulator/simulator-main';
-import * as WelcomeMain from './main-welcome/welcome-main';
+import { WelcomeScreen } from './main-welcome/welcome-main';
 
 
 export const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -13,7 +14,7 @@ app.on('ready', () => {
     console.log("[lv editor] electron is ready ⚡️")
     console.log("current env is " + (isDevelopment ? "dev" : "prod"))
 
-    WelcomeMain.bootstrap()
+    WelcomeScreen.shared.bootstrap()
     EditorMain.bootstrap()
     SimulatorMain.bootstrap()
 
@@ -30,7 +31,7 @@ app.on('ready', () => {
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
     
-    ipcMain.emit("welcome:show")
+    ipc.welcome.emit("show")
 })
 
 app.on('window-all-closed', () => {

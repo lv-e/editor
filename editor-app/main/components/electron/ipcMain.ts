@@ -34,8 +34,8 @@ export class IPCMainChannel {
         return this
     }
 
-    send(message: string) {
-        ipcMain.handle(message, () => {})
+    emit(message: string, ...args:any) {
+        ipcMain.emit(`${this.mainProcess}:${message}`, args)
     }
 
 }
