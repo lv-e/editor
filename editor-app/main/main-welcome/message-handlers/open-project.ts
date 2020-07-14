@@ -1,9 +1,8 @@
 
 import * as Electron from "electron";
 import { dialog } from "electron";
-import { FileEntry, RecentFiles } from "../../managers/recent-files";
 
-export function openProject(event:Electron.IpcMainEvent){
+export function openProject(callback:(string?) => void){
 
     // show an open file dialog
     dialog.showOpenDialog( null, {
@@ -14,8 +13,7 @@ export function openProject(event:Electron.IpcMainEvent){
     }).then( (data:Electron.OpenDialogReturnValue) => {
         if (!data.canceled) {
             const choosenPath = data.filePaths[0]
-            const choosenFile = new FileEntry(choosenPath)
-            RecentFiles.shared().add(choosenFile)
+            callback(choosenPath)
         }
     })
 }

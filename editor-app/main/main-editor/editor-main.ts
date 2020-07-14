@@ -1,11 +1,11 @@
-import { ipcMain, BrowserWindow, IpcMainEvent } from "electron";
+import * as cli from '@lv-game-editor/lv-cli';
+import { watch } from 'chokidar';
+import { BrowserWindow, ipcMain, IpcMainEvent } from "electron";
+import { basename, join } from 'path';
+import { format as formatUrl } from 'url';
 import { isDevelopment } from "..";
-import { join, basename } from 'path'
-import { format as formatUrl } from 'url'
-import { DockerInterface } from "./docker-interface";
-import * as cli from '@lv-game-editor/lv-cli'
-import {watch} from 'chokidar'
 import { openSimulator } from "../main-simulator/simulator-main";
+import { DockerInterface } from "./docker-interface";
 
 // IPC messages for welcome
 export function bootstrap() {
@@ -43,7 +43,7 @@ function runBuild(event:any, path:string){
     
 }
 
-function openProject(event:any, path:string) {
+export function openProject(event:any, path:string) {
 
     let newEditor = new BrowserWindow({
         minWidth: 320, minHeight: 200, 

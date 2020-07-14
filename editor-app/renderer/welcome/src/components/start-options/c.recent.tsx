@@ -36,7 +36,7 @@ function RecentGames ({games}:{games:(FileEntry[]|null)}){
 
 function RecentGame ({game}:{game:FileEntry}) {
     return  <li className="recent-game">
-                <button className="colorize">
+                <button className="colorize" onClick={ e => ipc.welcome.send("choose-project", game.filepath) }>
                     <i className="ico-cartridge"/><span className="title">{game.resourceName}</span><br/>
                     <i className="inline-ico-folder"/><span className="path">{game.directoryPath}</span>
                 </button>
@@ -45,7 +45,11 @@ function RecentGame ({game}:{game:FileEntry}) {
 
 function OpenAnother(){
     return  <li className="open-game">
-                <button className="colorize" onClick={ e => ipc.welcome.send("open-project") }>
+                <button className="colorize" onClick={ e => {
+                    ipc.welcome.fetch("open-project", e => {
+                        ipc.welcome.send("choose-project", e)
+                    })}
+                }>
                     <i className="ico-folder"/><span className="title">open project ...</span><br/>
                 </button>
             </li>

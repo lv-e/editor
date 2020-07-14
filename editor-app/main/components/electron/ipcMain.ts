@@ -34,6 +34,10 @@ export class IPCMainChannel {
         return this
     }
 
+    send(message: string) {
+        ipcMain.handle(message, () => {})
+    }
+
 }
 
 export var ipc = {

@@ -1,60 +1,29 @@
 import { BrowserWindow } from "electron";
-import { join } from 'path';
-import { format as formatUrl } from 'url';
-import { isDevelopment } from "..";
 import { ipc } from "../components/electron/ipcMain";
 import { RecentFiles } from "../managers/recent-files";
-import { createNewProject } from "./message-handlers/new-project";
-import { fetchNews } from "./message-handlers/news";
-import { openProject } from "./message-handlers/open-project";
+import * as handler from "./message-handlers";
 
-let welcomeWindow:BrowserWindow | null = null
+export let welcomeWindow:BrowserWindow | null = null
+export function setWelcomeWindow(w:BrowserWindow) { welcomeWindow = w }
 
-// IPC messages for welcome
 export function bootstrap() {
-    
+
     ipc.welcome
-        .on('show', presentWelcome)
-        .on('close', closeWelcome)
-        .on('open-project', openProject) 
-        .provideAsync("new-project", (_args, completion) => {
-            createNewProject( file => completion(file))
-        })
-        .provideAsync('news', (_args, completion) => {
-            fetchNews( news => completion(news))
-        })
-        .provideSync("recent-projects",  _e => {
-            return RecentFiles.shared().getAll
-        })
-}
-
-function closeWelcome(event:Electron.IpcMainEvent) {
-    if(welcomeWindow) welcomeWindow.close()
-    welcomeWindow = null
-}
-
-function presentWelcome(event:Electron.IpcMainEvent) {
-    
-    if (welcomeWindow == null) {
-
-        welcomeWindow = new BrowserWindow({
-            width:600, height:400,
-            frame: false, resizable: false,
-            webPreferences: {
-                nodeIntegration: true
-            }
-        })
-
-        if (isDevelopment) 
-            welcomeWindow.loadURL("http://localhost:4100/")
-        else welcomeWindow.loadURL( formatUrl( {
-            pathname: join(__dirname, "welcome", 'index.html'),
-            protocol: 'file',
-            slashes: true
-        }))
-        
-        welcomeWindow.show()
-    }
-
-    welcomeWindow.focus()
+        .on('show', handler.show)
+        .on('close', handler.close)
+        .on('choose-project', (_e, path) => 
+            handler.chooseProject(path)
+        )
+        .provideAsync('open-project', (_args, completion) => 
+            handler.openProject(path => completion(path))
+        )
+        .provideAsync("new-project", (_args, completion) => 
+            handler.createNewProject( file => completion(file))
+        )
+        .provideAsync('news', (_args, completion) => 
+            handler.fetchNews( news => completion(news))
+        )
+        .provideSync("recent-projects",  _e => 
+            RecentFiles.shared().getAll
+        )
 }
