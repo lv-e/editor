@@ -8,7 +8,7 @@ export function Welcome (props) {
         <h1>✦ Welcome!</h1>
         <ul>
             <li><button className="colorize create-new" 
-            onClick={ e => ipc.welcome.fetch('new-project', e => console.log(e)) }>
+            onClick={ e => ipc.welcome.fetch('new-project', file => ipc.welcome.send("choose-project", file)) }>
                 <i className="icon new-game"/>
                 create new game
             </button></li>

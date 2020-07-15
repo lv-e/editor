@@ -55,7 +55,7 @@ export function openProject(event:any, path:string) {
     })
 
     if (isDevelopment) {
-        newEditor.loadURL("http://localhost:4300/?path=+" + encodeURIComponent(path))
+        newEditor.loadURL("http://localhost:4200/?path=+" + encodeURIComponent(path))
         newEditor.webContents.openDevTools({mode: "detach"})
     } else newEditor.loadURL( formatUrl( {
         pathname: join(__dirname, "editor", 'index.html'),
