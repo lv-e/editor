@@ -2,9 +2,9 @@
   "name": "editor-app",
   "version": "0.0.0",
   "scripts": {
-    "dev:electron": "tsc -p tsconfig.json && electron ./dist",
-    "dev:renderer-welcome": "parcel renderer/welcome/src/index.html --port 4100 --out-dir dist/renderer/welcome",
-    "dev:renderer-editor": "parcel renderer/editor/src/index.html --port 4200 --out-dir dist/renderer/editor",
+    "dev:electron": "tsc -p tsconfig.json && electron ./dist/dev",
+    "dev:renderer-welcome": "parcel renderer/welcome/index.html --port 4100 --out-dir dist/dev/renderer/welcome",
+    "dev:renderer-editor": "parcel renderer/editor/index.html --port 4200 --out-dir dist/dev/renderer/editor",
     "dev:mix-electron": "wait-on http://localhost:4100 && yarn dev:electron",
     "dev": "concurrently -k \"yarn dev:mix-electron\" \"yarn dev:renderer-welcome\""
   },

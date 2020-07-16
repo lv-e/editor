@@ -6,7 +6,7 @@
         "moduleResolution": "Node",
         "sourceMap": true,
         "strict": false,
-        "outDir": "dist",
+        "outDir": "dist/dev",
         "typeRoots": [
             "node_modules/@types"
         ],
