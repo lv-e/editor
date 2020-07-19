@@ -17,5 +17,6 @@ export function SystemControl (props) {
                     <img src={String(logo)}/>
                     <span className="stripe"/>
                 </div>
+                <MiniButton icon="more" wide={true} onclick={ e => console.log(e) }/>
             </section>
 }

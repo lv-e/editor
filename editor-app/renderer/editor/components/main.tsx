@@ -18,7 +18,7 @@ export function Main (props) {
     
     <ReflexContainer orientation="vertical" windowResizeAware={true}>
 
-        <ReflexElement className="left-pane" minSize={200} maxSize={360}>
+        <ReflexElement className="left-pane" minSize={200} maxSize={260}>
             <FileExplorer/>
         </ReflexElement>
         <ReflexSplitter/>
