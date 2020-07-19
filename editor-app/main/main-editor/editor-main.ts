@@ -16,6 +16,8 @@ export function bootstrap() {
     ipcMain.on('editor:close', (event, path) => {
         ipcMain.emit("simulator:close", event, path)
         DockerInterface.accessForProject(path).stop()
+        newEditor.close()
+        newEditor = null
     })
 }
 
@@ -43,12 +45,15 @@ function runBuild(event:any, path:string){
     
 }
 
+
+let newEditor:BrowserWindow
+
 export function openProject(event:any, path:string) {
 
-    let newEditor = new BrowserWindow({
-        minWidth: 320, minHeight: 200, 
+    newEditor = new BrowserWindow({
+        minWidth: 500, minHeight: 400, 
         width:800, height:600,
-        frame: true, resizable: true,
+        frame: false, resizable: true,
         webPreferences: {
             nodeIntegration: true
         }
@@ -64,8 +69,8 @@ export function openProject(event:any, path:string) {
     }))
 
     newEditor.on('close', () => {
-        console.log("editor is closing for " + path)
-        ipcMain.emit("editor:close", null, path)
+        //console.log("editor is closing for " + path)
+        //ipcMain.emit("editor:close", null, path)
     })
     
     newEditor.show()

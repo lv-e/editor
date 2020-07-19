@@ -27,3 +27,16 @@
 .minibutton .icon-maximize, .minibutton:hover .icon-maximize {
     background-image: url("../../app-assets/images/button/ico-mini-btn-maximize.png");
 }
+
+.colorize {
+    transition: filter 120ms;
+    transition-timing-function: ease-in-out;
+}
+
+.colorize:hover {
+    filter: hue-rotate(-40deg) saturate(2) brightness(1.2);
+}
+
+.colorize:active {
+    opacity: 0.8;
+}

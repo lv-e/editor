@@ -1,0 +1,46 @@
+@import "../../../app-assets/styles/constants.less";
+
+#system-control {
+    border-image-source: url('../../../app-assets/images/bg/header-bg.png');
+    border-image-slice: 9 fill;
+    border-image-width: 9px;
+    
+    min-width: 200px;
+    padding: @p-space;
+    height: 88px;
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 1;
+
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+
+#system-control > .minibutton {    
+    margin: @m-space 0 @m-space @m-space;
+    flex-shrink: 1;
+}
+
+#system-control > .logo {
+    height: 20px;
+    flex-grow: 1;
+    flex-direction: row;
+    display: flex;
+}
+
+.logo > .stripe {
+    height: 20px;
+    flex-grow: 1;
+    background-image: url('../../../app-assets/images/bg/header-logo-line-bg.png');
+    background-repeat: repeat-x;
+    margin: 0px @m-space;
+}
+
+.logo > img {
+    margin-left: -@m-space;
+    margin-right: -@m-space;
+    flex-shrink: 1;
+}

@@ -19,10 +19,10 @@ export function News (props) {
         <div className="log">
             { news != null ? 
                 news.map( (newsItem, i) => {
-                    return <>
+                    return <section key={`${i}`}>
                         <h3># {newsItem.date}</h3>
                         <p>{newsItem.content}</p>
-                    </>
+                    </section>
                 })
             : null }
         </div>

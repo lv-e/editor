@@ -14,7 +14,8 @@
     "chokidar": "^3.3.1",
     "dockerode": "^3.1.0",
     "dockerode-ts": "^0.3.2",
-    "electron-store": "^5.2.0"
+    "electron-store": "^5.2.0",
+    "react-reflex": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
