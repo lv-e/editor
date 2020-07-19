@@ -10,10 +10,10 @@ interface MiniButtonProps {
 
 export const MiniButton: React.SFC<MiniButtonProps> = (props) => {
 
-    const wideClass = props.wide == true ? " wide" : ""
+    const wideClass = props.wide == true ? "wide" : ""
     return (
         <button className={`colorize minibutton ${wideClass}`} onClick={props.onclick}>
-            <img src="1px.png" className={`minibutton icon icon-${props.icon} ${wideClass}`}/>
+            <img className={`minibutton icon icon-${props.icon} ${wideClass}`}/>
         </button>
     )
 }

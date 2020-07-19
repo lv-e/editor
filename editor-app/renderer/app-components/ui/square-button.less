@@ -1,0 +1,31 @@
+@import "../../app-assets/styles/constants.less";
+
+.square-button{
+    background-color: transparent;
+    border-image-source: url('../../app-assets/images/button/bg-button.png');
+    border-image-slice: 6 fill;
+    border-image-width: 6px;
+    min-width: 25px;
+    min-height: 26px;
+    padding: @g-space @gg-space;
+    color: @white-color;
+}
+
+
+.square-button > .icon {
+    content: url("../../app-assets/images/button/1px.png");
+    background-position: center;
+    background-repeat: no-repeat;   
+    min-width: 10px;
+    min-height: 10px;
+    vertical-align: middle;
+}
+
+.square-button > .icon-play {
+    background-image: url("../../app-assets/images/button/ico-btn-play.png");
+}
+
+.square-button:active {
+    border-image-source: url('../../app-assets/images/button/bg-button-active.png');
+    padding: @g-space+1 @gg-space @g-space - 1 @gg-space;
+}
