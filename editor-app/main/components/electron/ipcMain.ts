@@ -35,6 +35,13 @@ export class IPCMainChannel {
         })
         return this
     }
+
+    once(message: string, listener: (event: IpcMainEvent, arg: any) => void) : this {
+        ipcMain.once(`${this.mainProcess}:${message}`, (event, args) => {
+            listener(event, args)
+        })
+        return this
+    }
     
     emit(message: string, ...args:any) {
         ipcMain.emit(`${this.mainProcess}:${message}`, undefined, ...args)

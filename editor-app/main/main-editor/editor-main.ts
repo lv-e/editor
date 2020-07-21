@@ -16,12 +16,12 @@ export class EditorScreen {
     // current window managment 
     private editorWindows:Editor[] = []
 
-    private pathForEvent(e:IpcMainEvent) : (string | null) {
+    pathForEvent(e:IpcMainEvent) : (string | null) {
         let window = this.windowForEvent(e)
-        return this.editorWindows.find( edt => edt.browserWindow === window).path
+        return this.editorWindows.find( edt => edt.browserWindow.id == window.id).path
     }
 
-    private windowForEvent(e:IpcMainEvent) : (BrowserWindow | null) {
+    windowForEvent(e:IpcMainEvent) : (BrowserWindow | null) {
         return BrowserWindow.fromWebContents(e.sender)
     }
     
@@ -30,18 +30,14 @@ export class EditorScreen {
         ipc.editor
             .on('open-project', (_e, path) =>
                 this.editorWindows.push({
-                    path: path,
-                    browserWindow: handler.openProject(path)
+                    path: path, browserWindow: handler.openProject(path)
                 })
             )
             .on('close', e => 
-                this.windowForEvent(e).close()
+                handler.close(e)
             )
             .provideAsync("project-files", (event, args, completion) =>
-                handler.projectFiles(
-                    this.pathForEvent(event),
-                    files => completion(files)
-                )
+                handler.projectFiles( this.pathForEvent(event), files => completion(files))
             )
     }
 }

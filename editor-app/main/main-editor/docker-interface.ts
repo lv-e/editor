@@ -1,8 +1,9 @@
-import Dockerode, { Container, Exec, ContainerCreateOptions, ContainerInspectInfo } from 'dockerode-ts';
+import * as cli from '@lv-game-editor/lv-cli';
+import Dockerode, { Container, ContainerCreateOptions, ContainerInspectInfo, Exec } from 'dockerode-ts';
+import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { isDevelopment } from '..';
-import { readFileSync } from 'fs';
-import * as cli from '@lv-game-editor/lv-cli'
+import { ipc } from '../components/electron/ipcMain';
 
 let dockerInstance:Dockerode = null
 function docker() : Dockerode {
@@ -30,6 +31,11 @@ export class DockerInterface {
 
     private constructor(path:string){
         this.path = path
+
+        ipc.editor.on('before-close', (e, path) => {
+            if (path.trim() != this.path.trim()) return
+            this.stop()
+        })
     }
 
     dir() : string {
