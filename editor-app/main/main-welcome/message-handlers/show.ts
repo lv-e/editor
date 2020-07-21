@@ -30,8 +30,9 @@ export function show(
             slashes: true
         }))
         
-        welcomeWindow.show()
+        welcomeWindow.once('ready-to-show', () => welcomeWindow.show())
+        
+    } else {
+        welcomeWindow.focus()
     }
-
-    welcomeWindow.focus()
 }

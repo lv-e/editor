@@ -1,9 +1,8 @@
 import { app, Menu, MenuItemConstructorOptions } from 'electron';
 import { ipc } from './components/electron/ipcMain';
-import * as EditorMain from './main-editor/editor-main';
+import { EditorScreen } from './main-editor/editor-main';
 import * as SimulatorMain from './main-simulator/simulator-main';
 import { WelcomeScreen } from './main-welcome/welcome-main';
-
 
 export const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -15,7 +14,7 @@ app.on('ready', () => {
     console.log("current env is " + (isDevelopment ? "dev" : "prod"))
 
     WelcomeScreen.shared.bootstrap()
-    EditorMain.bootstrap()
+    EditorScreen.shared.bootstrap()
     SimulatorMain.bootstrap()
 
     const template: Electron.MenuItemConstructorOptions[] = [

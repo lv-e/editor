@@ -19,9 +19,9 @@ export class IPCMainChannel {
         return this
     }
 
-    provideAsync(property:any, source:(params:any, completion:(any) => void) => any) : this {
+    provideAsync(property:any, source:(event:IpcMainEvent, params:any, completion:(any) => void) => any) : this {
         ipcMain.on(`${this.mainProcess}:get-${property}`, (e, args) => {
-            source(args, value => {
+            source(e, args, value => {
                 e.reply(`${this.mainProcess}:set-${property}`, value)
             })
         })
@@ -29,13 +29,15 @@ export class IPCMainChannel {
         return this
     }
 
-    on(message: string, listener: (event: IpcMainEvent, ...args: any[]) => void) : this {
-        ipcMain.on(`${this.mainProcess}:${message}`, listener)
+    on(message: string, listener: (event: IpcMainEvent, arg: any) => void) : this {
+        ipcMain.on(`${this.mainProcess}:${message}`, (event, args) => {
+            listener(event, args)
+        })
         return this
     }
-
+    
     emit(message: string, ...args:any) {
-        ipcMain.emit(`${this.mainProcess}:${message}`, args)
+        ipcMain.emit(`${this.mainProcess}:${message}`, undefined, ...args)
     }
 
 }

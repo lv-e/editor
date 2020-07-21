@@ -6,7 +6,6 @@ import * as handler from "./message-handlers/index";
 export class WelcomeScreen {
 
     // singleton access
-    
     private static instance: WelcomeScreen;
     static get shared(): WelcomeScreen {
         if (!WelcomeScreen.instance) WelcomeScreen.instance = new WelcomeScreen();
@@ -14,7 +13,6 @@ export class WelcomeScreen {
     }
 
     // current window managment
-
     private currentWindow:BrowserWindow | null = null
     private static getCurrentWindow() : BrowserWindow { return WelcomeScreen.shared.currentWindow }
     private static setCurrentWindow(newWindow:BrowserWindow) : BrowserWindow { 
@@ -22,11 +20,10 @@ export class WelcomeScreen {
         return newWindow
     }
     
-    show()  { handler.show( WelcomeScreen.getCurrentWindow, WelcomeScreen.setCurrentWindow )}
-    close() { handler.close( WelcomeScreen.getCurrentWindow, WelcomeScreen.setCurrentWindow ) }
+    private show()  { handler.show( WelcomeScreen.getCurrentWindow, WelcomeScreen.setCurrentWindow )}
+    private close() { handler.close( WelcomeScreen.getCurrentWindow, WelcomeScreen.setCurrentWindow ) }
 
     // ipc messages handling
-
     bootstrap() {
         
         ipc.welcome
@@ -35,13 +32,13 @@ export class WelcomeScreen {
             .on('choose-project', (_e, path) => 
                 handler.chooseProject(path)
             )
-            .provideAsync('open-project', (_args, completion) => 
+            .provideAsync('open-project', (_e, _args, completion) => 
                 handler.openProject( path => completion(path))
             )
-            .provideAsync("new-project", (_args, completion) => 
+            .provideAsync("new-project", (_e, _args, completion) => 
                 handler.createNewProject( file => completion(file))
             )
-            .provideAsync('news', (_args, completion) => 
+            .provideAsync('news', (_e, _args, completion) => 
                 handler.fetchNews( news => completion(news))
             )
             .provideSync("recent-projects",  _e => 

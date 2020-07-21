@@ -1,11 +1,52 @@
-import * as cli from '@lv-game-editor/lv-cli';
-import { watch } from 'chokidar';
-import { BrowserWindow, ipcMain, IpcMainEvent } from "electron";
-import { basename, join } from 'path';
-import { format as formatUrl } from 'url';
-import { isDevelopment } from "..";
-import { openSimulator } from "../main-simulator/simulator-main";
-import { DockerInterface } from "./docker-interface";
+import { BrowserWindow, IpcMainEvent } from "electron";
+import { ipc } from "../components/electron/ipcMain";
+import * as handler from "./message-handlers/index";
+
+export type Editor = {path:string, browserWindow:BrowserWindow}
+
+export class EditorScreen {
+
+    // singleton access
+    private static instance: EditorScreen;
+    static get shared(): EditorScreen {
+        if (!EditorScreen.instance) EditorScreen.instance = new EditorScreen();
+        return EditorScreen.instance;
+    }
+
+    // current window managment 
+    private editorWindows:Editor[] = []
+
+    private pathForEvent(e:IpcMainEvent) : (string | null) {
+        let window = this.windowForEvent(e)
+        return this.editorWindows.find( edt => edt.browserWindow === window).path
+    }
+
+    private windowForEvent(e:IpcMainEvent) : (BrowserWindow | null) {
+        return BrowserWindow.fromWebContents(e.sender)
+    }
+    
+    // ipc messages handling
+    bootstrap() {
+        ipc.editor
+            .on('open-project', (_e, path) =>
+                this.editorWindows.push({
+                    path: path,
+                    browserWindow: handler.openProject(path)
+                })
+            )
+            .on('close', e => 
+                this.windowForEvent(e).close()
+            )
+            .provideAsync("project-files", (event, args, completion) =>
+                handler.projectFiles(
+                    this.pathForEvent(event),
+                    files => completion(files)
+                )
+            )
+    }
+}
+
+/*
 
 // IPC messages for welcome
 export function bootstrap() {
@@ -109,3 +150,5 @@ function scanProjectFiles(event:IpcMainEvent, path:string){
     })
     
 }
+
+*/
