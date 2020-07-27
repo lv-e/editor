@@ -4,6 +4,6 @@ import "./tabs.less"
 
 export function Tabs (props) {
     return <>
-        <h1>tabs</h1>
+        <h1></h1>
     </>
 }

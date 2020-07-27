@@ -60,18 +60,18 @@ export class DockerInterface {
         let context = this
         
         let options:ContainerCreateOptions = { 
-            Image: 'lvedock/lve_emulator:latest',
+            Image: 'lvedock/lve_runtime:latest',
             Cmd:['/bin/sh'],
-            ExposedPorts: {
-                '1996/tcp': {}
-            },
+            // ExposedPorts: {
+            //     '1996/tcp': {}
+            // },
             Tty: true, AttachStdout: true, AttachStderr: true, AttachStdin: true,
             HostConfig:{
-                PortBindings: {
-                    '1996/tcp': [{
-                        HostPort: '1996',
-                    }],
-                },
+                // PortBindings: {
+                //     '1996/tcp': [{
+                //         HostPort: '1996',
+                //     }],
+                // },
                 Binds:[
                     this.dir() + ":/lv/project",
                     this.dir() + "/.shared:/lv/shared",

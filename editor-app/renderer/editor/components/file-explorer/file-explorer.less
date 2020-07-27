@@ -1,5 +1,10 @@
 @import "../../../app-assets/styles/constants.less";
 
+#file-explorer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
 #system-bar  {
     border-image-source: url('../../../app-assets/images/bg/header-bg.png');
@@ -8,6 +13,7 @@
 
     min-width: 200px;
     padding: @p-space;
+    flex-grow: 0;
 
     -webkit-user-select: none;
     -webkit-app-region: drag;
@@ -68,4 +74,11 @@
     display: flex;
     flex-direction: row;
     margin: @m-space;
+}
+
+#files {
+    flex-grow: 1;
+    border-image-source: url('../../assets/images/files-bg.png');
+    border-image-slice: 4 fill;
+    border-image-width: 4px;
 }
