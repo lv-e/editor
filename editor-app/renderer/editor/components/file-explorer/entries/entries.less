@@ -2,11 +2,11 @@
 @import "../../../../app-assets/styles/constants.less";
 @import "../../../../app-assets/styles/icons.less";
 
-.file-entry {
+.file-entry, .dir-entry {
     border-bottom: 1px solid @dark-gray-color;
 }
 
-.file-entry button {
+.file-entry button, .dir-entry button {
     height: 100%;
     width: 100%;
     background-color: transparent;
@@ -15,12 +15,16 @@
     padding: @g-space;
 }
 
-.file-entry .title {
+.file-entry .title, .dir-entry .title{
     padding-left: @g-space;
     padding-top: @p-space;
 }
 
-.file-entry .extension {
+.file-entry .extension, .dir-entry .extension {
     color: @gray-color;
     padding-top: @p-space;
+}
+
+.dir-entry .extension{
+    padding-left: @m-space;
 }
