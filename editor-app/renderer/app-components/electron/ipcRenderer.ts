@@ -23,6 +23,16 @@ export class IPCRendererChannel {
             then(null)
         }
     }
+
+    bind(property:string, then:(data:any) => void) {
+        try {
+            electronIPC().on(`${this.mainProcess}:set-${property}`, (_event, args) => then(args))
+            electronIPC().send(`${this.mainProcess}:get-${property}`)
+        } catch (e) {
+            console.error(e)
+            then(null)
+        }
+    }
 }
 
 export var ipc = {

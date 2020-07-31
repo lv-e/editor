@@ -9,11 +9,16 @@ import { useState, useEffect } from "react";
 export function Files (props) {
 
     let [rootFolders, setRootFolders] = useState<lv.rootFolders|null>(null)
-    
+    let lastUpdate:string = null 
+
     useEffect(() => {
-        if (rootFolders == null) 
-            ipc.editor.fetch("project-files",
-                (folders:lv.rootFolders) =>  setRootFolders(folders))
+        if (lastUpdate == null && rootFolders == null) {
+            ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
+                if (folders.generated_at == lastUpdate) return 
+                lastUpdate = folders.generated_at
+                setRootFolders(folders)
+            })
+        } 
     })
 
     return  <section id="explorer-files">
