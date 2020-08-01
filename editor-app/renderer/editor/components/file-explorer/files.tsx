@@ -18,6 +18,12 @@ export function Files (props) {
                 lastUpdate = folders.generated_at
                 setRootFolders(folders)
             })
+
+            ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
+                if (folders.generated_at == lastUpdate) return 
+                lastUpdate = folders.generated_at
+                setRootFolders(folders)
+            })
         } 
     })
 

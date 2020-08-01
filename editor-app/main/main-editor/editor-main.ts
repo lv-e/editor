@@ -37,7 +37,7 @@ export class EditorScreen {
                 handler.close(e)
             )
             .provideAsync("project-files", (event, args, completion) =>
-                handler.projectFiles( this.pathForEvent(event), files => completion(files))
+                handler.projectFiles( event, files => completion(files))
             )
     }
 }

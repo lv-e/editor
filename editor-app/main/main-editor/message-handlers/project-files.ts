@@ -1,43 +1,81 @@
-import * as cli from '@lv-game-editor/lv-cli';
+import * as lv from '@lv-game-editor/lv-cli';
+import { IpcMainEvent } from 'electron';
 import { FSWatcher, watch } from 'fs';
 import { parse } from 'path';
 import { ipc } from '../../components/electron/ipcMain';
 import { DockerInterface } from "../docker-interface";
+import { EditorScreen } from '../editor-main';
 
-let watcher:FSWatcher
+type FilesCallback = (files:lv.rootFolders) => void
 
-export function projectFiles(path:string, callback:(string?) => void){
-    let access = DockerInterface.accessForProject(path)
-    access.withContainer( () =>{
+class FilesWatcher {
+    
+    private listeners = new Array<FilesCallback>()
+    constructor(readonly path:string, readonly watcher:FSWatcher) {
+        console.log(`new project files watcher started at: ${path}`)
+    }
 
-        watcher = watch(access.dir(), {
+    triggerChange(files:lv.rootFolders) {
+        this.listeners.forEach( l => l(files))
+    }
+
+    addListener(listener:FilesCallback) {
+        this.listeners.push(listener)
+    }
+}
+
+let fsWatchers = new Map<string, FilesWatcher>()
+
+export function projectFiles(e:IpcMainEvent, callback:(root?:lv.rootFolders) => void){
+
+    let path   = EditorScreen.shared.pathForEvent(e)
+    let docker = DockerInterface.accessForProject(path)
+
+    let cached = fsWatchers.get(path)
+    if (cached != null) {
+        console.log("fsWatchers found cached")
+        cached.addListener(callback)
+
+    } else {
+
+        console.log("fsWatchers cache miss")
+        
+        const watcher = watch(docker.dir(), {
             persistent: true,
             recursive: true,
             encoding: 'buffer'
         })
+        
+        let project = new FilesWatcher(path, watcher)
+        project.addListener(callback)
+        fsWatchers.set(path, project)
 
-        watcher.on("change", (eventType?, file?) => {
+        docker.withContainer( () =>{
 
-            if (!eventType || !file) return;
+            // change watcher:
+            watcher.on("change", (eventType?, file?) => {
+    
+                if (!eventType || !file) return;
+                
+                const fileData = parse(`${file}`)
+                if (fileData.base.startsWith(".")) return
+                if (file.includes(".shared/")) return
+                if (file.includes(".bin/")) return
+                
+                docker.scan( (data:lv.rootFolders) => project.triggerChange(data))
+            })
+    
+            // listeners cleanup:
+            ipc.editor.once('before-close', (_e, eventPath) => {
+                if(!path || !eventPath || eventPath.trim() != path.trim()) return
+                watcher.removeAllListeners()
+                fsWatchers.delete(path)
+                
+                console.log(`did stop watching files for ${path}`)
+            })
             
-            const fileData = parse(`${file}`)
-            if (fileData.base.startsWith(".")) return
-            if (file.includes(".shared/")) return
-            if (file.includes(".bin/")) return
-            
-            DockerInterface.accessForProject(path).scan(
-                (data:cli.rootFolders) => callback(data)
-            )
+            // first time scan:
+            docker.scan( (data:lv.rootFolders) => project.triggerChange(data))
         })
-
-        ipc.editor.once('before-close', (_e, eventPath) => {
-            if(!path || !eventPath || eventPath.trim() != path.trim()) return
-            watcher.removeAllListeners()
-            console.log(`did stop watching files for ${path}`)
-        })
-
-        DockerInterface.accessForProject(path).scan(
-            (data:cli.rootFolders) => callback(data)
-        )
-    })
+    }
 }
