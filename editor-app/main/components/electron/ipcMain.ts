@@ -10,12 +10,11 @@ export class IPCMainChannel {
         this.mainProcess = mainProcess
     }
 
-    provideSync(property:any, source:(params:any) => any) : this {
-        ipcMain.on(`${this.mainProcess}:get-${property}`, (e, args) => {
-            const value = source(args)
-            e.reply(`${this.mainProcess}:set-${property}`, value)
+    provideSync(property:any, source:(event:IpcMainEvent, params:any) => any) : this {
+        ipcMain.on(`${this.mainProcess}:fetch-${property}`, (e, args) => {
+            const value = source(e, args)
+            e.returnValue = value
         })
-
         return this
     }
 

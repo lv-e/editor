@@ -14,7 +14,7 @@ export class IPCRendererChannel {
         electronIPC().send(`${this.mainProcess}:${message}`, params)
     }
 
-    fetch(property:string, then:(data:any) => void) {
+    get(property:string, then:(data:any) => void) {
         try {
             electronIPC().once(`${this.mainProcess}:set-${property}`, (_event, args) => then(args))
             electronIPC().send(`${this.mainProcess}:get-${property}`)
@@ -22,6 +22,10 @@ export class IPCRendererChannel {
             console.error(e)
             then(null)
         }
+    }
+
+    fetch(property:string) : any {
+        return electronIPC().sendSync(`${this.mainProcess}:fetch-${property}`)
     }
 
     bind(property:string, then:(data:any) => void) {

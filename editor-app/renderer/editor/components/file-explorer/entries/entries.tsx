@@ -2,6 +2,8 @@ import * as React from "react";
 import * as lv from "@lv-game-editor/lv-cli"
 
 import "./entries.less"
+import { useState } from "react";
+import { Project } from "[comps]/electron/project";
 
 export type DirKind = ("folder" | "shared" | "scene")
 
@@ -43,7 +45,20 @@ export const DirEntry: React.SFC<DirEntryProps> = (props) => {
 
     let display_name:string
     let display_extension:string
-    let [openned, setOpenned] = React.useState(false)
+
+    const initialState = function() {
+
+        const project = Project.current
+        console.log(project)
+
+        if (project && project.editor && project.editor.openedFiles) {
+            return project.editor.openedFiles.includes(props.dir.path);
+        } else {
+            return false 
+        }
+    }()
+
+    let [openned, setOpenned] = useState(initialState)
 
     switch (props.kind) {
         case "shared":

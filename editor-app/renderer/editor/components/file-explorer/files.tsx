@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as lv from "@lv-game-editor/lv-cli"
 import { ipc } from "[comps]/electron/ipcRenderer"
+import { Project } from "[comps]/electron/project"
 import {FileEntry, DirEntry, DirEntryProps, DirKind, DirList} from "./entries/entries"
 
 import "./file-explorer.less"
@@ -13,12 +14,6 @@ export function Files (props) {
 
     useEffect(() => {
         if (lastUpdate == null && rootFolders == null) {
-            ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
-                if (folders.generated_at == lastUpdate) return 
-                lastUpdate = folders.generated_at
-                setRootFolders(folders)
-            })
-
             ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
                 if (folders.generated_at == lastUpdate) return 
                 lastUpdate = folders.generated_at

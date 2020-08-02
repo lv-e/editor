@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
-    "@lv-game-editor/lv-cli": "^1.0.24",
+    "@lv-game-editor/lv-cli": ">=1.0.0 <2.0.0",
     "@types/node": "^12.11.1",
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",

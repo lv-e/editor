@@ -9,8 +9,9 @@ export function Recent () {
     let [games, setGames] = useState<FileEntry[]|null>(null)
     
     useEffect(() => {
-        if (games == null) 
-            ipc.welcome.fetch("recent-projects", gs => setGames(gs))
+        if (games == null) {
+            ipc.welcome.get("recent-projects", gs => setGames(gs))
+        }
     })
 
     return <div className="recent">
@@ -46,7 +47,7 @@ function RecentGame ({game}:{game:FileEntry}) {
 function OpenAnother(){
     return  <li className="open-game">
                 <button className="colorize" onClick={ e => {
-                    ipc.welcome.fetch("open-project", e => {
+                    ipc.welcome.get("open-project", e => {
                         ipc.welcome.send("choose-project", e)
                     })}
                 }>

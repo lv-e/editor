@@ -11,7 +11,7 @@ export function News (props) {
     
     useEffect(() => {
         if (news == null) 
-            ipc.welcome.fetch("news", ns => setNews(ns))
+            ipc.welcome.get("news", ns => setNews(ns))
     })
 
     return <div className="news">

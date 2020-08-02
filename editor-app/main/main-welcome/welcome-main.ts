@@ -41,8 +41,8 @@ export class WelcomeScreen {
             .provideAsync('news', (_e, _args, completion) => 
                 handler.fetchNews( news => completion(news))
             )
-            .provideSync("recent-projects",  _e => 
-                RecentFiles.shared().getAll
+            .provideAsync("recent-projects", (_e, _args, completion) => 
+                completion( RecentFiles.shared().getAll )
             )
     }   
 }

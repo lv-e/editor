@@ -36,6 +36,15 @@ export class EditorScreen {
             .on('close', e => 
                 handler.close(e)
             )
+            .on('save-project', (e, data) => 
+                handler.saveProject(e, data)
+            )
+            .provideSync("read-project", event => {
+                return handler.readProjectFile(event)
+            })
+            .provideAsync("project-changes", (event, args, completion) =>
+                handler.projectChanges( event, project => completion(project))
+            )
             .provideAsync("project-files", (event, args, completion) =>
                 handler.projectFiles( event, files => completion(files))
             )

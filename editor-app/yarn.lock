@@ -268,12 +268,13 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@lv-game-editor/lv-cli@^1.0.24":
-  version "1.0.42"
-  resolved "https://registry.yarnpkg.com/@lv-game-editor/lv-cli/-/lv-cli-1.0.42.tgz#af7167c8cc9543bf8fd54181ff17a41a9e42cfa7"
-  integrity sha512-h3iniYsWAOA2s7g6ubSyItiBgEa17r1W5yC7sGrwR2GLuOSEuAMqm8njGNrcr2hJgAgUJEyQXDrSq4+cRmE8QA==
+"@lv-game-editor/lv-cli@>=1.0.0 <2.0.0":
+  version "1.0.46"
+  resolved "https://registry.yarnpkg.com/@lv-game-editor/lv-cli/-/lv-cli-1.0.46.tgz#16fad2c18113e36555944734179f7891ff31aea4"
+  integrity sha512-a/XB17LFNSBtZ9zly+VXgIZ25novzm7rGZRZMGQUddyukhM2vAXiDtHTFm6FH08vIbT/a5z8e929tt8gxvdcpg==
   dependencies:
     astyle "^2.0.0"
+    junk "^3.1.0"
     meow "^6.0.0"
     shelljs "^0.8.3"
 
@@ -1544,6 +1545,11 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
+
+junk@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/junk/-/junk-3.1.0.tgz#31499098d902b7e98c5d9b9c80f43457a88abfa1"
+  integrity sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==
 
 keyv@^3.0.0:
   version "3.1.0"

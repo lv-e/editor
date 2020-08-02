@@ -40,6 +40,10 @@ function projectTemplate() : std.projectContent {
             engine: engine,
             drivers: drivers,
             encoders: encoders
+        },
+        editor: {
+            openedFiles: [],
+            selectedFile: null
         }
     }
 }
