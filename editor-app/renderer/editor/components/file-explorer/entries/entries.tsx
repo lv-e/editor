@@ -67,15 +67,17 @@ export const DirEntry: React.SFC<DirEntryProps> = (props) => {
 
     const stateIcon = openned ? "minus" : "plus"
 
-    function toggleOpened(e:React.MouseEvent){
-        const newState = !openned
+    function toggleOpened(e:React.MouseEvent){ 
         const saved = Project.edit( project => {
-            if (newState == true) project.editor.openedFiles.push(props.dir.path)
+            if (!openned == true) project.editor.openedFiles.push(props.dir.path)
             else project.editor.openedFiles = project.editor.openedFiles.filter( d => d != props.dir.path)
             return project
         })
         
-        if(saved) setOpenned(newState) 
+        if(saved) {
+            const state = Project.current.editor.openedFiles.includes(props.dir.path)
+            setOpenned(state)
+        }
     }
 
     return  <>

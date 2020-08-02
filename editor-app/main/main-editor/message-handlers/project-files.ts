@@ -55,10 +55,12 @@ export function projectFiles(e:IpcMainEvent, callback:(root?:lv.rootFolders) => 
             // change watcher:
             watcher.on("change", (eventType?, file?) => {
     
-                if (!eventType || !file) return;
-                
+                if (!eventType || !file) return
+                if (eventType == "change") return
+
                 const fileData = parse(`${file}`)
                 if (fileData.base.startsWith(".")) return
+
                 if (file.includes(".shared/")) return
                 if (file.includes(".bin/")) return
                 
