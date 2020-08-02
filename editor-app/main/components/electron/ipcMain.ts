@@ -35,6 +35,13 @@ export class IPCMainChannel {
         return this
     }
 
+    atomic(message: string, listener: (event: IpcMainEvent, arg: any) => any) : this {
+        ipcMain.on(`${this.mainProcess}:atomic-${message}`, (event, args) => {
+            event.returnValue = listener(event, args)
+        })
+        return this
+    }
+
     once(message: string, listener: (event: IpcMainEvent, arg: any) => void) : this {
         ipcMain.once(`${this.mainProcess}:${message}`, (event, args) => {
             listener(event, args)

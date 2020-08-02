@@ -14,6 +14,10 @@ export class IPCRendererChannel {
         electronIPC().send(`${this.mainProcess}:${message}`, params)
     }
 
+    atomicSend(message:string, params?:any) : any {
+        return electronIPC().sendSync(`${this.mainProcess}:atomic-${message}`, params)
+    }
+
     get(property:string, then:(data:any) => void) {
         try {
             electronIPC().once(`${this.mainProcess}:set-${property}`, (_event, args) => then(args))

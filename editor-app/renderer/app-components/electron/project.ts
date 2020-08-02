@@ -3,24 +3,21 @@ import { ipc } from "./ipcRenderer";
 
 export class Project {
 
-    static readonly current:lv.projectContent = function() {
-        console.log("reading project!!!!")
+    static get current() : lv.projectContent {
         const rawJSON = ipc.editor.fetch("read-project")
         return JSON.parse(rawJSON)  
-    }()
+    }
 
-    static save(content:lv.projectContent) {
-        ipc.editor.send("save-project", content)
+    static save(content:lv.projectContent) : boolean {
+        return ipc.editor.atomicSend("save-project", content)
     }
 
     static bind(callback:(content:lv.projectContent) => void) {
         ipc.editor.bind("project", content => callback(content))
     }
 
-    static edit(callback:(content:lv.projectContent) => lv.projectContent) {
-        ipc.editor.get("project", content => {
-            let newContent = callback(content)
-            Project.save(newContent)
-        })
+    static edit(callback:(content:lv.projectContent) => lv.projectContent) : boolean {
+        const newProject = callback(Project.current)
+        return Project.save(newProject)
     }
 }

@@ -43,22 +43,12 @@ export function FileList ({files, level}:{
 
 export const DirEntry: React.SFC<DirEntryProps> = (props) => {
 
+    let [openned, setOpenned] = useState(() => {
+        return Project.current.editor.openedFiles.includes(props.dir.path);
+    })
+
     let display_name:string
     let display_extension:string
-
-    const initialState = function() {
-
-        const project = Project.current
-        console.log(project)
-
-        if (project && project.editor && project.editor.openedFiles) {
-            return project.editor.openedFiles.includes(props.dir.path);
-        } else {
-            return false 
-        }
-    }()
-
-    let [openned, setOpenned] = useState(initialState)
 
     switch (props.kind) {
         case "shared":
@@ -77,9 +67,20 @@ export const DirEntry: React.SFC<DirEntryProps> = (props) => {
 
     const stateIcon = openned ? "minus" : "plus"
 
+    function toggleOpened(e:React.MouseEvent){
+        const newState = !openned
+        const saved = Project.edit( project => {
+            if (newState == true) project.editor.openedFiles.push(props.dir.path)
+            else project.editor.openedFiles = project.editor.openedFiles.filter( d => d != props.dir.path)
+            return project
+        })
+        
+        if(saved) setOpenned(newState) 
+    }
+
     return  <>
         <li className="dir-entry">
-            <button className="colorize" onClick={ e => setOpenned(!openned) }>
+            <button className="colorize" onClick={ e => toggleOpened(e) }>
                 <i className={`ico-${stateIcon}`} style={{marginLeft: `${props.level * 14}px`}}/>
                 <i className={`ico-${props.kind}`}/>
                 <span className="title">{display_name}</span>

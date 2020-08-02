@@ -36,7 +36,7 @@ export class EditorScreen {
             .on('close', e => 
                 handler.close(e)
             )
-            .on('save-project', (e, data) => 
+            .atomic('save-project', (e, data) => 
                 handler.saveProject(e, data)
             )
             .provideSync("read-project", event => {
