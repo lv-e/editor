@@ -1,22 +1,58 @@
 import * as lv from '@lv-game-editor/lv-cli';
+import * as chokidar from "chokidar";
+import { debounce } from 'debounce';
 import { IpcMainEvent } from 'electron';
-import { FSWatcher, watch } from 'fs';
-import { parse } from 'path';
+import { FSWatcher } from 'fs';
+import { dirname } from 'path';
 import { ipc } from '../../components/electron/ipcMain';
 import { DockerInterface } from "../docker-interface";
 import { EditorScreen } from '../editor-main';
 
-type FilesCallback = (files:lv.rootFolders) => void
+export type FilesCallback = (files:lv.rootFolders) => void
+let fsWatchers = new Map<string, FilesWatcher>()
 
 class FilesWatcher {
     
     private listeners = new Array<FilesCallback>()
-    constructor(readonly path:string, readonly watcher:FSWatcher) {
-        console.log(`new project files watcher started at: ${path}`)
+    private watcher:FSWatcher
+    private debouncedScan:(() => void) 
+
+    constructor(readonly path:string) {
+
+        this.debouncedScan = debounce(this.scan, 10, false)
+
+        let dir = dirname(this.path).trim()
+        console.log(`new project files watcher started at: ${dir}`)
+        
+        this.watcher = chokidar.watch(dir, {
+            persistent: true,
+            ignoreInitial: true,
+            followSymlinks: false,
+            ignored: /(^|[\/\\])\../
+        })
+
+        this.watcher.on("all", (eventType, file) => {
+            if (!eventType || eventType == "change") return
+            console.log("calling scan " + eventType + " // " + file)
+            this.debouncedScan()
+        })
+        
+        ipc.editor.once('before-close', (_e, eventPath) => {
+            if(!path || !eventPath || eventPath.trim() != path.trim()) return
+            this.watcher.removeAllListeners()
+            fsWatchers.delete(path)
+            console.log(`did stop watching files for ${path}`)
+        })
+
+        this.triggerScan()
     }
 
-    triggerChange(files:lv.rootFolders) {
-        this.listeners.forEach( l => l(files))
+    triggerScan() { this.debouncedScan() }
+    private scan() {
+        let docker = DockerInterface.accessForProject(this.path)
+        docker.scan( (files:lv.rootFolders) => {
+            this.listeners.forEach( l => l(files))
+        })
     }
 
     addListener(listener:FilesCallback) {
@@ -24,60 +60,24 @@ class FilesWatcher {
     }
 }
 
-let fsWatchers = new Map<string, FilesWatcher>()
-
 export function projectFiles(e:IpcMainEvent, callback:(root?:lv.rootFolders) => void){
 
     let path   = EditorScreen.shared.pathForEvent(e)
-    let docker = DockerInterface.accessForProject(path)
-
     let cached = fsWatchers.get(path)
+    
     if (cached != null) {
-        console.log("fsWatchers found cached")
+
+        console.log("[project files] fsWatcher found cached")
+        
         cached.addListener(callback)
+        cached.triggerScan()
 
     } else {
+        
+        console.log("[project files] fsWatcher cache miss")
 
-        console.log("fsWatchers cache miss")
-        
-        const watcher = watch(docker.dir(), {
-            persistent: true,
-            recursive: true,
-            encoding: 'buffer'
-        })
-        
-        let project = new FilesWatcher(path, watcher)
+        let project = new FilesWatcher(path)
         project.addListener(callback)
         fsWatchers.set(path, project)
-
-        docker.withContainer( () =>{
-
-            // change watcher:
-            watcher.on("change", (eventType?, file?) => {
-    
-                if (!eventType || !file) return
-                if (eventType == "change") return
-
-                const fileData = parse(`${file}`)
-                if (fileData.base.startsWith(".")) return
-
-                if (file.includes(".shared/")) return
-                if (file.includes(".bin/")) return
-                
-                docker.scan( (data:lv.rootFolders) => project.triggerChange(data))
-            })
-    
-            // listeners cleanup:
-            ipc.editor.once('before-close', (_e, eventPath) => {
-                if(!path || !eventPath || eventPath.trim() != path.trim()) return
-                watcher.removeAllListeners()
-                fsWatchers.delete(path)
-                
-                console.log(`did stop watching files for ${path}`)
-            })
-            
-            // first time scan:
-            docker.scan( (data:lv.rootFolders) => project.triggerChange(data))
-        })
     }
 }

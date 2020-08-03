@@ -2,8 +2,9 @@ import * as React from "react";
 import * as lv from "@lv-game-editor/lv-cli"
 
 import "./entries.less"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Project } from "[comps]/electron/project";
+import { ipc } from "[comps]/electron/ipcRenderer";
 
 export type DirKind = ("folder" | "shared" | "scene")
 
@@ -100,6 +101,7 @@ export const DirEntry: React.SFC<DirEntryProps> = (props) => {
 
 export const FileEntry: React.SFC<FileEntryProps> = (props) => {
 
+    let [selected, setSelected] = useState(false)
     let ico:string = "file"
 
     switch (props.file.extension){
@@ -109,8 +111,20 @@ export const FileEntry: React.SFC<FileEntryProps> = (props) => {
         default: ico = "file-any"; break;
     }
 
-    return  <li className="file-entry">
-                <button className="colorize" onClick={ e => console.log(e) }>
+    function markSelection(e:React.MouseEvent){ 
+        const saved = Project.edit( project => {
+            project.editor.selectedFile = props.file.path
+            return project
+        })
+        
+        if(saved) {
+            const state = Project.current.editor.selectedFile == props.file.path
+            setSelected(state)
+        }
+    }
+
+    return  <li className={`file-entry ${ selected ? "selected-file" : ""}`}>
+                <button className="colorize" onClick={ e => markSelection(e) }>
                     <i className="ico-align" style={{marginLeft: `${props.level * 14}px`}}/>
                     <i className={`ico-${ico}`}/>
                     <span className="title">{props.file.name}</span>
