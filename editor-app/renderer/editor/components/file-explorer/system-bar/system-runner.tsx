@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./file-explorer.less"
 import {SquareButton} from "[comps]/ui/square-button"
 
 export function SystemRunner (props) {

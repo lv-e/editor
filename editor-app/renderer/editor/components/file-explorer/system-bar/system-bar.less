@@ -1,0 +1,74 @@
+@import "../../../../app-assets/styles/constants.less";
+
+
+#system-bar  {
+    border-image-source: url('../../../../app-assets/images/bg/header-bg.png');
+    border-image-slice: 9 fill;
+    border-image-width: 9px;
+
+    min-width: 200px;
+    padding: @p-space @p-space (@p-space + 1) @p-space;
+    margin-bottom: -1px;
+    flex-grow: 0;
+
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+#system-control {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 1;
+}
+
+#system-control > .minibutton {    
+    margin: @m-space 0 @m-space @m-space;
+    flex-shrink: 1;
+}
+
+#system-control button:last-of-type {
+    margin: @m-space @m-space @m-space 0;
+}
+
+#system-control > .logo {
+    height: 20px;
+    flex-grow: 1;
+    flex-direction: row;
+    display: flex;
+}
+
+.logo > .stripe {
+    height: 20px;
+    flex-grow: 1;
+    background-image: url('../../../../app-assets/images/bg/header-logo-line-bg.png');
+    background-repeat: repeat-x;
+    margin: 0px @m-space;
+}
+
+.logo > img {
+    margin-left: -@m-space;
+    margin-right: -@m-space;
+    flex-shrink: 1;
+}
+
+
+#system-status {
+    border-image-source: url('../../../assets/images/status-console-bg.png');
+    border-image-slice: 4 fill;
+    border-image-width: 4px;
+    height: 22px;
+    margin: 0 @m-space;
+}
+
+#system-status p {
+    color: #4AB6D7;
+    padding: @g-space;
+}
+
+#system-runner {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    margin: @m-space;
+}

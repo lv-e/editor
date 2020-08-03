@@ -5,9 +5,9 @@
     border-image-source: url('../../app-assets/images/button/bg-button.png');
     border-image-slice: 6 fill;
     border-image-width: 6px;
-    min-width: 25px;
-    min-height: 26px;
-    padding: @g-space @gg-space;
+    width: 28px;
+    height: 28px;
+    padding: 1px;
     color: @white-color;
 }
 
@@ -16,8 +16,8 @@
     content: url("../../app-assets/images/button/1px.png");
     background-position: center;
     background-repeat: no-repeat;   
-    min-width: 10px;
-    min-height: 10px;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
 }
 
@@ -25,7 +25,19 @@
     background-image: url("../../app-assets/images/button/ico-btn-play.png");
 }
 
+.square-button > .icon-new-scene {
+    background-image: url("../../app-assets/images/button/ico-btn-new-scene.png");
+}
+
+.square-button > .icon-new-file {
+    background-image: url("../../app-assets/images/button/ico-btn-new-file.png");
+}
+
+.square-button > .icon-new-folder {
+    background-image: url("../../app-assets/images/button/ico-btn-new-folder.png");
+}
+
 .square-button:active {
     border-image-source: url('../../app-assets/images/button/bg-button-active.png');
-    padding: @g-space+1 @gg-space @g-space - 1 @gg-space;
+    padding: 2px 1px 0px 1px;
 }

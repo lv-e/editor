@@ -22,17 +22,19 @@ export function Files (props) {
         } 
     })
 
-    return  <section id="explorer-files">
-                <ul>
-                    { rootFolders != null 
-                        && <FileEntry file={rootFolders.project_file} level={0}/>
-                    }
-                    { rootFolders != null && rootFolders.shared != null 
-                        && <DirList dirs={rootFolders.shared} kind="shared" level={0}/>
-                    }
-                    { rootFolders != null && rootFolders.scenes != null 
-                        && <DirList dirs={rootFolders.scenes} kind="scene" level={0}/>
-                    }
-                </ul>
-            </section>
+    return  <div id="files">
+                <section id="explorer-files">
+                    <ul>
+                        { rootFolders != null 
+                            && <FileEntry file={rootFolders.project_file} level={0}/>
+                        }
+                        { rootFolders != null && rootFolders.shared != null 
+                            && <DirList dirs={rootFolders.shared} kind="shared" level={0}/>
+                        }
+                        { rootFolders != null && rootFolders.scenes != null 
+                            && <DirList dirs={rootFolders.scenes} kind="scene" level={0}/>
+                        }
+                    </ul>
+                </section>
+            </div>
 }

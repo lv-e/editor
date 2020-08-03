@@ -1,0 +1,18 @@
+@import "../../../../app-assets/styles/constants.less";
+
+#file-explorer .toolbar {
+    border-image-source: url('../../../assets/images/toolbar-bg.png');
+    border-image-slice: 4 fill;
+    border-image-width: 4px;
+    margin-top: -1px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    padding: (@g-space + 1) @g-space @g-space @g-space;
+}
+
+#file-explorer .toolbar button {
+    margin-left: @m-space;
+    flex-shrink: 0;
+}

@@ -3,7 +3,7 @@ import * as React from "react";
 import "./square-button.less"
 
 interface SquareButtonProps {
-    icon?:("play" | "abort")
+    icon?:("play" | "abort" | "new-scene" | "new-folder" | "new-file")
     onclick:(event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 

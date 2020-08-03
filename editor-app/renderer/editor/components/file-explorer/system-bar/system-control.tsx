@@ -1,8 +1,6 @@
 import * as React from "react";
 import { ipc } from "[comps]/electron/ipcRenderer"
-import {MiniButton} from "../../../app-components/ui/mini-button"
-
-import "./file-explorer.less"
+import {MiniButton} from "../../../../app-components/ui/mini-button"
 
 export function SystemControl (props) {
 
