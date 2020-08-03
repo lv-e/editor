@@ -9,3 +9,17 @@
 @gray-color: #ABA7B5;
 @light-gray-color: #C3BFCF;
 @white-color: #e6e6e6;
+
+
+.glow {
+    transition: filter 120ms;
+    transition-timing-function: ease-in-out;
+}
+
+.glow:hover {
+    filter: saturate(1.05) brightness(1.15);
+}
+
+.glow:active {
+    opacity: 0.8;
+}

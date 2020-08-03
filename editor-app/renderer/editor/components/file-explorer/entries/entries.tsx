@@ -83,7 +83,7 @@ export const DirEntry: React.SFC<DirEntryProps> = (props) => {
 
     return  <>
         <li className="dir-entry">
-            <button className="colorize" onClick={ e => toggleOpened(e) }>
+            <button className="glow" onClick={ e => toggleOpened(e) }>
                 <i className={`ico-${stateIcon}`} style={{marginLeft: `${props.level * 14}px`}}/>
                 <i className={`ico-${props.kind}`}/>
                 <span className="title">{display_name}</span>
@@ -124,7 +124,7 @@ export const FileEntry: React.SFC<FileEntryProps> = (props) => {
     }
 
     return  <li className={`file-entry ${ selected ? "selected-file" : ""}`}>
-                <button className="colorize" onClick={ e => markSelection(e) }>
+                <button className="glow" onClick={ e => markSelection(e) }>
                     <i className="ico-align" style={{marginLeft: `${props.level * 14}px`}}/>
                     <i className={`ico-${ico}`}/>
                     <span className="title">{props.file.name}</span>

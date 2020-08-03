@@ -14,7 +14,6 @@ export function Files (props) {
 
     useEffect(() => {
         if (lastUpdate == null && rootFolders == null) {
-            console.log("adding a bind!")
             ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
                 if (folders.generated_at == lastUpdate) return 
                 lastUpdate = folders.generated_at
