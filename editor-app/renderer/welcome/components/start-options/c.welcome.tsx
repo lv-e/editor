@@ -7,12 +7,12 @@ export function Welcome (props) {
     return <div className="welcome">
         <h1>✦ Welcome!</h1>
         <ul>
-            <li><button className="colorize create-new" 
+            <li><button className="glow create-new" 
             onClick={ e => ipc.welcome.get('new-project', file => ipc.welcome.send("choose-project", file)) }>
                 <i className="icon new-game"/>
                 create new game
             </button></li>
-            <li><button className="colorize read-docs">
+            <li><button className="glow read-docs">
                 <i className="icon new-game"/>
                 read the docs
             </button></li>

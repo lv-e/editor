@@ -1,1 +1,38 @@
-/* empty */
+@import "../../../app-assets/styles/constants.less";
+
+.tabs-bar {
+    border-image-source: url("../../assets/images/tabs-bg.png");
+    border-image-slice: 35 2 0 2 fill;
+    border-image-width: 35px 2px 0px 2px;
+    border-image-repeat: repeat repeat;
+    -webkit-app-region: drag;
+    height: 35px;
+    width: 100%;
+}
+
+.tabs-bar ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.tabs-bar li:first-of-type {
+    margin-left: @g-space;
+}
+
+.tabs-bar ul li {
+    border-image-source: url("../../assets/images/tabs-tab-unselected-bg.png");
+    border-image-slice: 27 4 0 4 fill;
+    border-image-width: 27px 4px 0px 4px;
+    border-image-repeat: repeat repeat;
+    height: 27px;
+    margin: 7px 0 0 @p-space;
+    color: @light-purple-color;
+    padding: (@gg-space + 1) @gg-space 0 @gg-space;
+}
+
+.tabs-bar ul .selected {
+    border-image-source: url("../../assets/images/tabs-tab-selected-bg.png");
+    height: 27px;
+    color: @white-color;
+    padding: @gg-space @gg-space 0 @gg-space;
+}
