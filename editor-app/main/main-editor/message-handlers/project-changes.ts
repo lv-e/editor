@@ -56,7 +56,6 @@ export function projectChanges(e:IpcMainEvent, callback:(project?:lv.projectCont
             if (!eventType || !file) return;
             if (eventType != "change") return
             if (parse(`${file}`).ext != ".lvproject") return
-            
             project.triggerChange()
         })
 

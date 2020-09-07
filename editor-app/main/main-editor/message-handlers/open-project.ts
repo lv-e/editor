@@ -2,6 +2,7 @@ import { BrowserWindow } from "electron";
 import { join } from "path";
 import { format } from 'url';
 import { isDevelopment } from "../..";
+import { DockerInterface } from "../docker-interface";
 
 export function openProject(path:string) : BrowserWindow{
 
@@ -12,16 +13,22 @@ export function openProject(path:string) : BrowserWindow{
         webPreferences: { nodeIntegration: true}
     })
 
-    if (isDevelopment) {
-        window.loadURL("http://localhost:4200/?path=+" + encodeURIComponent(path))
-        window.webContents.openDevTools({mode: "detach"})
-    } else window.loadURL( format( {
-        pathname: join(__dirname, "editor", 'index.html'),
-        protocol: 'file',
-        slashes: true
-    }))
+    let docker = DockerInterface.accessForProject(path)
+    
+    docker.withContainer( _ => {
 
-    window.once('ready-to-show', () => window.show())
-
+        window.once('ready-to-show', () => window.show())
+    
+        if (isDevelopment) {
+            window.loadURL("http://localhost:4200/?path=+" + encodeURIComponent(path))
+            window.webContents.openDevTools({mode: "detach"})
+        } else window.loadURL( format( {
+            pathname: join(__dirname, "editor", 'index.html'),
+            protocol: 'file',
+            slashes: true
+        }))
+        
+    })    
+    
     return window
 }

@@ -16,7 +16,7 @@ RUN \
     mkdir -p -m 777 /lv/artifacts \
 \
 # the end of encoding pipeline, where the c++ source are put
-    mkdir -p -m 777 /lv/source \
+    mkdir -p -m 777 /lv/lv-game \
 \
 # used to share information between machines, .shared on host
     mkdir -p -m 777 /lv/shared \

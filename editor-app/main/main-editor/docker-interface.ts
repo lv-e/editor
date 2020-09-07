@@ -1,6 +1,7 @@
 import * as cli from '@lv-game-editor/lv-cli';
 import Dockerode, { Container, ContainerCreateOptions, ContainerInspectInfo, Exec } from 'dockerode-ts';
 import { readFileSync } from 'fs';
+import * as kt from "keytar";
 import { dirname, join } from 'path';
 import { isDevelopment } from '..';
 import { ipc } from '../components/electron/ipcMain';
@@ -43,6 +44,7 @@ export class DockerInterface {
     }
 
     withContainer(action:(Container) => void){
+        
         this.isUp( (up, container) => {
             try {
                 if (up && container != null) action(container)
@@ -57,10 +59,10 @@ export class DockerInterface {
     private bootContainer(completion:(Container) => void){
 
         let container:Container = null
-        let context = this
+        let context:DockerInterface = this
         
         let options:ContainerCreateOptions = { 
-            Image: 'lvedock/lve_runtime:latest',
+            Image: 'lvedock/lve_particle_photon:latest',
             Cmd:['/bin/sh'],
             // ExposedPorts: {
             //     '1996/tcp': {}
@@ -97,12 +99,21 @@ export class DockerInterface {
                 "\n-mount: " + context.dir()
             )
             context.containerID = container.id
-            completion(container)
+
+            context.isUp( (state, c) => {
+                if (!state) console.log("Something is wrong")
+                completion(container)
+            })
         }
     }
 
     private isUp(callback:(bool, Container?) => void){
-        
+    
+        if (this.containerID == null) {
+            callback(false, null)
+            return 
+        }
+
         let container = docker().getContainer(this.containerID)
 
         if (container == null || container.id == undefined) {
@@ -116,6 +127,7 @@ export class DockerInterface {
             try { 
                 if (error != null) callback(false, null)
                 else if (info.State.Running == true) callback(true, container)
+                else callback(false, null)
             } catch { 
                 callback(false, null)
             }
@@ -155,27 +167,77 @@ export class DockerInterface {
         })
     }
 
-    build(completion:(success:boolean) => void){
+    log(str:string, then:() => void){
+        this.runLvCLI({
+            command: "log",
+            input: str,
+            output: null
+        }, () => then() )
+    }
+
+    private async retrieveSecrets(path:string) : Promise<string> {
+
+        const file = readFileSync(path, {encoding: "utf-8"})
+        const project:cli.projectContent = JSON.parse(file)
+
+        let response:{[name: string]: string} = {}
+
+        for (let dx in project.header.drivers) {
+
+            const driver = project.header.drivers[dx]
+            
+            if (driver.current != true) continue;
+            if (driver.secrets == null) continue;
+            
+            for (let key in driver.secrets) {
+                let service = driver.secrets[key];
+                let storedSecret = await kt.findPassword(service)
+                response[key] = storedSecret
+            }
+        }
+
+        return Buffer
+            .from( JSON.stringify(response, null, "\t") )
+            .toString("base64");
+    }
+
+    async build(projectPath:string, completion:(success:boolean) => void){
+
+        console.log("starting build... looking for secrets")
+        const secrets = await this.retrieveSecrets(projectPath)
+        console.log("done! calling lv-cli")
+        
         this.runLvCLI({
             command: "build",
-            input: "/lv/scripts/build/build.sh",
-            output: "/lv/bin/game"
+            input: `/lv/scripts/build.sh ${secrets}`,
+            bag: secrets,
+            output: "/lv/bin"
         }, () => {
             completion(true)
         })
     }
 
-    runLvCLI(data:{command:string, input:string, output:string}, callback:() => void){
+    runLvCLI(data:{command:string, input:string, output:string, bag?:string}, callback:() => void){
 
         this.withContainer( (container) => {
 
             const decoder = this.streamToString
             const context = this 
 
-            const command = [
+            let command = [
                 "lv-cli", isDevelopment ? "verbose" : "", data.command,
-                "-i", data.input, "-o", data.output
+                "-i", data.input
             ]
+
+            if (data.output != null) {
+                command.push("-o")
+                command.push(data.output)
+            }
+
+            if (data.bag != null) {
+                command.push("-b")
+                command.push(data.bag)
+            }
 
             const options = {
                 Cmd: command,
@@ -200,16 +262,15 @@ export class DockerInterface {
 
                 decoder(stream).then( (response:string) => {
 
-                    if (response.includes("cannot exec in a stopped state") || response.trim() == "") {
-                        context.containerID = null
-                        context.runLvCLI(data, callback)
+                    if (response.includes("cannot exec in a stopped state")) {
+                        console.log(`can't run. restart container?`)
                     } else {
-                        if (isDevelopment) console.log("<lvcli> " + response + " </lvcli>")
+                        if (isDevelopment) console.log("\n<lvcli> " + response + "</lvcli>\n")
                         callback()
                     }
                     
                 }).catch(() => {
-                    throw new Error("can't decode stream")
+                    console.log(`empty response for ${data.command}`)
                 })
             }
         })

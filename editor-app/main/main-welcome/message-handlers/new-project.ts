@@ -5,11 +5,6 @@ import { basename } from "path"
 
 function projectTemplate() : std.projectContent {
 
-    let engine:std.engineDefinition = {
-        repo: "https://github.com/lv-e/engine.git",
-        tag: "tags/v0.0.17"
-    }
-
     let encoders:std.encoder[] = [
         {
             extension: ".lvcode",
@@ -37,7 +32,6 @@ function projectTemplate() : std.projectContent {
     return { 
         header: {
             version: "0.0.1",
-            engine: engine,
             drivers: drivers,
             encoders: encoders
         },
