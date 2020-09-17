@@ -35,4 +35,5 @@ ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 RUN npm i -g \
     @lv-game-editor/lv-cli@"<2.0.0" \
     @lv-game-editor/encoder-lvcode@"<2.0.0" \
+    @lv-game-editor/encoder-png@"<2.0.0" \
     @lv-game-editor/encoder-lvproject@"<2.0.0" 

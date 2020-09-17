@@ -10,7 +10,7 @@ interface SquareButtonProps {
 export const SquareButton: React.SFC<SquareButtonProps> = (props) => {
 
     return (
-        <button className={`colorize square-button`} onClick={props.onclick}>
+        <button className={`glow square-button`} onClick={props.onclick}>
             { props.icon != null ? 
                 <img className={`icon icon-${props.icon}`}/> : ""
             }

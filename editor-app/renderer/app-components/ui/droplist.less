@@ -1,0 +1,56 @@
+@import "../../app-assets/styles/constants.less";
+
+.full-overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: @black-overlay-color;
+    z-index: 500;
+    transition: opacity 0.2s ease-out 0s;
+    backdrop-filter: blur(1px);
+}
+
+
+.popup-list li {
+    display: flex;
+    border-bottom: 1px solid @dark-gray-color;
+}
+
+.popup-list li a {
+    padding: @g-space @gg-space;
+    background-color: @mid-gray-color;
+    width: 100%;
+    cursor: pointer;
+}
+
+.popup-list {
+    position: fixed;
+    padding: @m-space;
+    padding-bottom: @m-space + 1;
+    
+    border-image-source: url('../../app-assets/images/bg/dropdown-bg.png');
+    border-image-slice: 5 fill;
+    border-image-width: 5px;
+
+    color: @white-color;    
+    z-index: 502;
+
+    transition: opacity 0.1s ease-out 0.0s;
+}
+
+.popup-list:after {
+    content: " ";
+    position: absolute;
+    width: 11px;
+    height: 7px;
+    top: -5px;
+    left: 10px;
+    background-image:url('../../app-assets/images/bg/dropdown-arrow.png');
+}
+
+.droplist-caster {
+    z-index: 501;
+    pointer-events: none;
+}
