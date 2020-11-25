@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
-    "@lv-game-editor/lv-cli": ">=1.0.0 <2.0.0",
+    "@lv-game-editor/lv-cli": "1.0.63",
     "@types/debounce": "^1.2.0",
     "@types/node": "^12.11.1",
     "@types/react": "^16.9.36",

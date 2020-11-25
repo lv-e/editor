@@ -10,29 +10,43 @@ import { useState, useEffect } from "react";
 export function Files (props) {
 
     let [rootFolders, setRootFolders] = useState<lv.rootFolders|null>(null)
-    let lastUpdate:string = null 
+    let [selectedFile, setSelectedFile] = useState<string|null>(null)
 
-    useEffect(() => {
-        if (lastUpdate == null && rootFolders == null) {
-            ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
-                if (folders.generated_at == lastUpdate) return 
-                lastUpdate = folders.generated_at
-                setRootFolders(folders)
+    useEffect( () => {
+
+        let projectCleaner = ipc.editor.bind("project-changes", (folders:lv.rootFolders) => {
+            setSelectedFile( old => {
+                let newValue = Project.current.editor.selectedFile
+                if (old == null || old != newValue) return newValue
+                else return old
             })
-        } 
-    })
+        })
+        
+        let filesCleaner = ipc.editor.bind("project-files", (folders:lv.rootFolders) => {
+            setRootFolders( old => {
+                if (old == null || old.tag != folders.tag) return folders
+                else return old
+            })
+        })
+
+        return function cleaner(){
+            projectCleaner()
+            filesCleaner()
+        }
+
+    }, []);
 
     return  <div id="files">
                 <section id="explorer-files">
                     <ul>
                         { rootFolders != null 
-                            && <FileEntry file={rootFolders.project_file} level={0}/>
+                            && <FileEntry file={rootFolders.project_file} selected={selectedFile} level={0}/>
                         }
                         { rootFolders != null && rootFolders.shared != null 
-                            && <DirList dirs={rootFolders.shared} kind="shared" level={0}/>
+                            && <DirList dirs={rootFolders.shared} kind="shared"  selected={selectedFile} level={0}/>
                         }
                         { rootFolders != null && rootFolders.scenes != null 
-                            && <DirList dirs={rootFolders.scenes} kind="scene" level={0}/>
+                            && <DirList dirs={rootFolders.scenes} kind="scene"  selected={selectedFile} level={0}/>
                         }
                     </ul>
                 </section>

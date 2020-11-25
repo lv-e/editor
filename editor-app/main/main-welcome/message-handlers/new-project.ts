@@ -10,13 +10,19 @@ function projectTemplate() : std.projectContent {
             extension: ".lvcode",
             npm_module: "@lv-game-editor/encoder-lvcode@\"<2.0.0\"",
             auto_update: false,
-            cli_command: "lv-encoder-lvcode"
+            commands: {
+                encoder: "lv-encoder-lvcode",
+                editor: "lv-editor-lvcode"
+            }
         },
         {
             extension: ".lvproject",
             npm_module: "@lv-game-editor/encoder-lvproject@\"<2.0.0\"",
             auto_update: false,
-            cli_command: "lv-encoder-lvproject"
+            commands: {
+                encoder: "lv-encoder-lvproject",
+                editor: "lv-editor-lvproject"
+            }
         }
     ]
 

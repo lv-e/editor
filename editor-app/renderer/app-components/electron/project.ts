@@ -3,13 +3,18 @@ import { ipc } from "./ipcRenderer";
 
 export class Project {
 
+    private static cached:lv.projectContent = undefined
+
     static get current() : lv.projectContent {
+        if (Project.cached != undefined) return Project.cached
         const rawJSON = ipc.editor.fetch("read-project")
         return JSON.parse(rawJSON)  
     }
 
     static save(content:lv.projectContent) : boolean {
-        return ipc.editor.atomicSend("save-project", content)
+        if(ipc.editor.atomicSend("save-project", content)) 
+            Project.cached = content
+        return true
     }
 
     static bind(callback:(content:lv.projectContent) => void) {

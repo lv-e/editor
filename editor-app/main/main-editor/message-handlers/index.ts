@@ -1,5 +1,6 @@
 export * from "./close";
 export * from "./docker-logwatch";
+export * from "./edit-file";
 export * from "./open-project";
 export * from "./project-changes";
 export * from "./project-files";

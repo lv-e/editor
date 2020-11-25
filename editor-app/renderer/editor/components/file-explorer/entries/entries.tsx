@@ -12,37 +12,41 @@ export interface DirEntryProps {
     dir:lv.dirMap
     kind:DirKind
     level:number
+    selected:string
 }
 
 interface FileEntryProps {
     file:lv.fileMap
     level:number
+    selected:string
 }
 
-export function DirList ({dirs, kind, level}:{
+export function DirList ({dirs, kind, level, selected}:{
     dirs:(lv.dirMap[]|null),
     kind:DirKind
     level:number
+    selected:string
 }){
     return <>
         { dirs != null 
-            && dirs.map( (dir, i) => <DirEntry kind={kind} dir={dir} key={i} level={level}/> )
+            && dirs.map( (dir, i) => <DirEntry kind={kind} dir={dir} selected={selected} key={i} level={level}/> )
         }
     </>
 }
 
-export function FileList ({files, level}:{
+export function FileList ({files, level, selected}:{
     files:(lv.fileMap[]|null),
     level:number
+    selected:string
 }){
     return <>
         { files != null 
-            && files.map( (dir, i) => <FileEntry file={dir} key={i} level={level}/> )
+            && files.map( (dir, i) => <FileEntry file={dir} selected={selected} key={i} level={level}/> )
         }
     </>
 }
 
-export const DirEntry: React.SFC<DirEntryProps> = (props) => {
+export const DirEntry: React.FunctionComponent<DirEntryProps> = (props) => {
 
     let [openned, setOpenned] = useState(() => {
         return Project.current.editor.openedFiles.includes(props.dir.path);
@@ -91,17 +95,16 @@ export const DirEntry: React.SFC<DirEntryProps> = (props) => {
             </button>
         </li>
         { props.dir.directories != null && openned
-            && <DirList dirs={props.dir.directories} kind="folder" level={props.level + 1}/>
+            && <DirList dirs={props.dir.directories} selected={props.selected} kind="folder" level={props.level + 1}/>
         }
         { props.dir.files != null && openned
-            && <FileList files={props.dir.files} level={props.level + 1}/>
+            && <FileList files={props.dir.files} selected={props.selected} level={props.level + 1}/>
         }
     </>
 }
 
-export const FileEntry: React.SFC<FileEntryProps> = (props) => {
+export const FileEntry: React.FunctionComponent<FileEntryProps> = (props) => {
 
-    let [selected, setSelected] = useState(false)
     let ico:string = "file"
 
     switch (props.file.extension){
@@ -112,6 +115,7 @@ export const FileEntry: React.SFC<FileEntryProps> = (props) => {
     }
 
     function markSelection(e:React.MouseEvent){ 
+
         const saved = Project.edit( project => {
             project.editor.selectedFile = props.file.path
             return project
@@ -119,12 +123,12 @@ export const FileEntry: React.SFC<FileEntryProps> = (props) => {
         
         if(saved) {
             const state = Project.current.editor.selectedFile == props.file.path
-            setSelected(state)
+            if (state) ipc.editor.send("edit-file", props.file.path)
         }
     }
 
-    return  <li className={`file-entry ${ selected ? "selected-file" : ""}`}>
-                <button className="glow" onClick={ e => markSelection(e) }>
+    return  <li className={`file-entry ${ (props.selected == props.file.path) ? "selected-file" : ""}`}>
+                <button className="glow" onClick={ e =>  markSelection(e) } >
                     <i className="ico-align" style={{marginLeft: `${props.level * 14}px`}}/>
                     <i className={`ico-${ico}`}/>
                     <span className="title">{props.file.name}</span>

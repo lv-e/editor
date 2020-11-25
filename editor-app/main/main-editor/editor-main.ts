@@ -39,6 +39,9 @@ export class EditorScreen {
             .on('run', e => 
                 handler.run(e)
             )
+            .on('edit-file', (e, file) => 
+                handler.editFile(e, file)
+            )
             .atomic('save-project', (e, data) => 
                 handler.saveProject(e, data)
             )

@@ -48,6 +48,7 @@ class FilesWatcher {
     }
 
     triggerScan() { this.debouncedScan() }
+    
     private scan() {
         let docker = DockerInterface.accessForProject(this.path)
         docker.scan( (files:lv.rootFolders) => {

@@ -32,14 +32,26 @@ export class IPCRendererChannel {
         return electronIPC().sendSync(`${this.mainProcess}:fetch-${property}`)
     }
 
-    bind(property:string, then:(data:any) => void) {
+    bind(property:string, then:(data:any) => void) : () => void {
+
+        const callback = (_event, args) => then(args)
+
         try {
-            electronIPC().on(`${this.mainProcess}:set-${property}`, (_event, args) => then(args))
+            electronIPC().on(`${this.mainProcess}:set-${property}`, callback)
             electronIPC().send(`${this.mainProcess}:get-${property}`)
         } catch (e) {
             console.error(e)
             then(null)
         }
+
+        const ipc = electronIPC()
+        const bindName = `${this.mainProcess}:set-${property}` 
+
+        function cleaner(){
+            ipc.removeListener(bindName, callback)
+        }
+        
+        return cleaner
     }
 }
 
