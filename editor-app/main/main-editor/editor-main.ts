@@ -42,11 +42,17 @@ export class EditorScreen {
             .on('edit-file', (e, file) => 
                 handler.editFile(e, file)
             )
+            .atomic('edit-file', (e, file) => 
+                handler.editFile(e, file)
+            )
             .atomic('save-project', (e, data) => 
                 handler.saveProject(e, data)
             )
             .provideSync("read-project", event => {
                 return handler.readProjectFile(event)
+            })
+            .provideSync("current-editor-url", event => {
+                return handler.editorURL(event)
             })
             .provideAsync("project-changes", (event, args, completion) =>
                 handler.projectChanges( event, project => completion(project))

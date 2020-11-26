@@ -29,7 +29,6 @@ export function Main (props) {
         </ReflexElement>
         <ReflexSplitter propagate={false} style={splitterStyle}/>
         <ReflexElement className="right-pane" minSize={300}>
-            <Tabs/>
             <MiniEditor/>
         </ReflexElement>
     </ReflexContainer>

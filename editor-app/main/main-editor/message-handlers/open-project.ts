@@ -10,7 +10,7 @@ export function openProject(path:string) : BrowserWindow{
         minWidth: 500, minHeight: 400, 
         width:800, height:600,
         frame: false, resizable: true,
-        webPreferences: { nodeIntegration: true}
+        webPreferences: { nodeIntegration: true, webviewTag: true}
     })
 
     let docker = DockerInterface.accessForProject(path)

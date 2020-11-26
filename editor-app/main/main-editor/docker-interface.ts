@@ -64,16 +64,24 @@ export class DockerInterface {
         let options:ContainerCreateOptions = { 
             Image: 'lvedock/lve_particle_photon:latest',
             Cmd:['/bin/sh'],
-            // ExposedPorts: {
-            //     '1996/tcp': {}
-            // },
+            ExposedPorts: {
+                '3100/tcp': {},
+                '3101/tcp': {},
+                '3102/tcp': {},
+                '3103/tcp': {},
+                '3104/tcp': {},
+                '3105/tcp': {}
+            },
             Tty: true, AttachStdout: true, AttachStderr: true, AttachStdin: true,
             HostConfig:{
-                // PortBindings: {
-                //     '1996/tcp': [{
-                //         HostPort: '1996',
-                //     }],
-                // },
+                PortBindings: {
+                    '3100/tcp': [{ HostPort: '3100'}],
+                    '3101/tcp': [{ HostPort: '3101'}],
+                    '3102/tcp': [{ HostPort: '3102'}],
+                    '3103/tcp': [{ HostPort: '3103'}],
+                    '3104/tcp': [{ HostPort: '3104'}],
+                    '3105/tcp': [{ HostPort: '3105'}]
+                },
                 Binds:[
                     this.dir() + ":/lv/project",
                     this.dir() + "/.shared:/lv/shared",
@@ -167,6 +175,17 @@ export class DockerInterface {
         })
     }
 
+    edit(port:string, file:string, completion:(success:boolean) => void){
+        this.runLvCLI({
+            command: "edit",
+            input: file,
+            output: port,
+            project: "/lv/project/game.lvproject"
+        }, () => {
+            completion(true)
+        })
+    }
+
     log(str:string, then:() => void){
         this.runLvCLI({
             command: "log",
@@ -217,7 +236,8 @@ export class DockerInterface {
         })
     }
 
-    runLvCLI(data:{command:string, input:string, output:string, bag?:string}, callback:() => void){
+    runLvCLI(data:{command:string, input:string, output:string, bag?:string, project?:string},
+        callback:() => void){
 
         this.withContainer( (container) => {
 
@@ -237,6 +257,11 @@ export class DockerInterface {
             if (data.bag != null) {
                 command.push("-b")
                 command.push(data.bag)
+            }
+
+            if (data.project != null) {
+                command.push("-p")
+                command.push(data.project)
             }
 
             const options = {
@@ -285,3 +310,5 @@ export class DockerInterface {
         })
     }
 }
+
+//lv-cli verbose edit -i /lv/project/scene_main/main.lvcode -o 3103 -p /lv/project/game.lvproject
