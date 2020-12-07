@@ -25,16 +25,15 @@ export function MiniEditor (props) {
         return ipc.editor.bind("project-changes", (folders:rootFolders) => {
             setEditorURL( old => {
                 let newURL = ipc.editor.fetch('current-editor-url')
-                if (old == null || old != newURL) return newURL
+                if (old == null || old != newURL) {
+                    console.log(`will load editor at ${newURL}`)
+                    return newURL
+                }
                 else return old
             })
         })
 
     }, []);
-
-    function retry(){
-
-    }
 
     let webview:JSX.Element = <webview 
         src={ editorURL} 

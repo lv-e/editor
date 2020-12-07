@@ -26,5 +26,6 @@
         "**/coverage": true,
         "**/editor-app/dist": true,
         "**/README.md": true
-    }
+    },
+    "cmake.configureOnOpen": false
 }

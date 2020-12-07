@@ -62,7 +62,7 @@ export class DockerInterface {
         let context:DockerInterface = this
         
         let options:ContainerCreateOptions = { 
-            Image: 'lvedock/lve_particle_photon:latest',
+            Image: 'lvedock/lve_odroid_go:latest',
             Cmd:['/bin/sh'],
             ExposedPorts: {
                 '3100/tcp': {},
@@ -85,7 +85,8 @@ export class DockerInterface {
                 Binds:[
                     this.dir() + ":/lv/project",
                     this.dir() + "/.shared:/lv/shared",
-                    this.dir() + "/.bin:/lv/bin"
+                    this.dir() + "/.bin:/lv/bin",
+                    "/dev/tty.SLAB_USBtoUART:/dev/bus/usb"
                 ]
             }
         }
@@ -169,7 +170,7 @@ export class DockerInterface {
         this.runLvCLI({
             command: "encode",
             input: "/lv/shared/project.json",
-            output: "/lv"
+            output: "/lv/source"
         }, () => {
             completion(true)
         })
@@ -215,9 +216,16 @@ export class DockerInterface {
             }
         }
 
-        return Buffer
-            .from( JSON.stringify(response, null, "\t") )
-            .toString("base64");
+        for(var prop in response) {
+            // at least one key
+            if(response.hasOwnProperty(prop)){
+                return Buffer
+                    .from( JSON.stringify(response, null, "\t") )
+                    .toString("base64");
+            }
+        }
+        
+        return "";
     }
 
     async build(projectPath:string, completion:(success:boolean) => void){
@@ -310,5 +318,3 @@ export class DockerInterface {
         })
     }
 }
-
-//lv-cli verbose edit -i /lv/project/scene_main/main.lvcode -o 3103 -p /lv/project/game.lvproject

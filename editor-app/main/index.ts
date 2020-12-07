@@ -17,18 +17,20 @@ app.on('ready', () => {
     EditorScreen.shared.bootstrap()
     SimulatorMain.bootstrap()
 
-    const template: Electron.MenuItemConstructorOptions[] = [
-        {
-            label: 'lvndr',
-            submenu: ([
-                { role: 'about' },
-                { role: 'toggleDevTools' }
-            ] as MenuItemConstructorOptions[])
-        }
-    ]
-
-    const menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
+    if (false) {
+        const template: Electron.MenuItemConstructorOptions[] = [
+            {
+                label: 'lvndr',
+                submenu: ([
+                    { role: 'about' },
+                    { role: 'toggleDevTools' }
+                ] as MenuItemConstructorOptions[])
+            }
+        ]
+    
+        const menu = Menu.buildFromTemplate(template)
+        Menu.setApplicationMenu(menu)
+    }
     
     ipc.welcome.emit("show")
 })
