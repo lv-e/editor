@@ -6,23 +6,23 @@ import { dirname, join } from 'path';
 import { isDevelopment } from '..';
 import { ipc } from '../components/electron/ipcMain';
 
-let dockerInstance:Dockerode = null
-function docker() : Dockerode {
+let dockerInstance: Dockerode = null
+function docker(): Dockerode {
     if (dockerInstance == null) dockerInstance = new Dockerode()
     return dockerInstance
 }
 
-let accessList:DockerInterface[] = new Array<DockerInterface>()
+let accessList: DockerInterface[] = new Array<DockerInterface>()
 
 export class DockerInterface {
 
-    containerID:string
-    path:string
+    containerID: string
+    path: string
 
-    static accessForProject(path:string) : DockerInterface {
-        
+    static accessForProject(path: string): DockerInterface {
+
         for (const access of accessList) {
-            if(access.path.trim() == path.trim()) return access
+            if (access.path.trim() == path.trim()) return access
         }
 
         let access = new DockerInterface(path)
@@ -30,7 +30,7 @@ export class DockerInterface {
         return access
     }
 
-    private constructor(path:string){
+    private constructor(path: string) {
         this.path = path
 
         ipc.editor.on('before-close', (e, path) => {
@@ -39,13 +39,13 @@ export class DockerInterface {
         })
     }
 
-    dir() : string {
+    dir(): string {
         return dirname(this.path).trim()
     }
 
-    withContainer(action:(Container) => void){
-        
-        this.isUp( (up, container) => {
+    withContainer(action: (Container) => void) {
+
+        this.isUp((up, container) => {
             try {
                 if (up && container != null) action(container)
                 else this.bootContainer(action)
@@ -56,14 +56,14 @@ export class DockerInterface {
         })
     }
 
-    private bootContainer(completion:(Container) => void){
+    private bootContainer(completion: (Container) => void) {
 
-        let container:Container = null
-        let context:DockerInterface = this
-        
-        let options:ContainerCreateOptions = { 
+        let container: Container = null
+        let context: DockerInterface = this
+
+        let options: ContainerCreateOptions = {
             Image: 'lvedock/lve_odroid_go:latest',
-            Cmd:['/bin/sh'],
+            Cmd: ['/bin/sh'],
             ExposedPorts: {
                 '3100/tcp': {},
                 '3101/tcp': {},
@@ -73,35 +73,41 @@ export class DockerInterface {
                 '3105/tcp': {}
             },
             Tty: true, AttachStdout: true, AttachStderr: true, AttachStdin: true,
-            HostConfig:{
+            HostConfig: {
                 PortBindings: {
-                    '3100/tcp': [{ HostPort: '3100'}],
-                    '3101/tcp': [{ HostPort: '3101'}],
-                    '3102/tcp': [{ HostPort: '3102'}],
-                    '3103/tcp': [{ HostPort: '3103'}],
-                    '3104/tcp': [{ HostPort: '3104'}],
-                    '3105/tcp': [{ HostPort: '3105'}]
+                    '3100/tcp': [{ HostPort: '3100' }],
+                    '3101/tcp': [{ HostPort: '3101' }],
+                    '3102/tcp': [{ HostPort: '3102' }],
+                    '3103/tcp': [{ HostPort: '3103' }],
+                    '3104/tcp': [{ HostPort: '3104' }],
+                    '3105/tcp': [{ HostPort: '3105' }]
                 },
-                Binds:[
+                Binds: [
                     this.dir() + ":/lv/project",
                     this.dir() + "/.shared:/lv/shared",
-                    this.dir() + "/.bin:/lv/bin",
-                    "/dev/tty.SLAB_USBtoUART:/dev/bus/usb"
+                    this.dir() + "/.bin:/lv/bin"
+                ],
+                Devices: [
+                    {
+                        PathOnHost: "/dev/ttyUSB0",
+                        PathInContainer: "/dev/ttyUSB0",
+                        CgroupPermissions: "rwm"
+                    }
                 ]
             }
         }
-    
+
         docker().createContainer(options, onCreate)
-    
-        function onCreate(error:any, response:Container | undefined){
-            if(error != null) throw new Error("can't load container! \n" + error)
-            if(response == null) throw new Error("can't load container")
+
+        function onCreate(error: any, response: Container | undefined) {
+            if (error != null) throw new Error("can't load container! \n" + error)
+            if (response == null) throw new Error("can't load container")
             container = response
             container.start(onStart);
         }
-    
-        function onStart(error:any, data:any){
-            if(error != null) throw new Error("Can't start cli container! reason: " + error)
+
+        function onStart(error: any, data: any) {
+            if (error != null) throw new Error("Can't start cli container! reason: " + error)
             console.log(
                 "A new container has been shipped!",
                 "\n-id is: " + container.id,
@@ -109,18 +115,18 @@ export class DockerInterface {
             )
             context.containerID = container.id
 
-            context.isUp( (state, c) => {
+            context.isUp((state, c) => {
                 if (!state) console.log("Something is wrong")
                 completion(container)
             })
         }
     }
 
-    private isUp(callback:(bool, Container?) => void){
-    
+    private isUp(callback: (bool, Container?) => void) {
+
         if (this.containerID == null) {
             callback(false, null)
-            return 
+            return
         }
 
         let container = docker().getContainer(this.containerID)
@@ -132,28 +138,28 @@ export class DockerInterface {
 
         container.inspect({}, inspectCallback)
 
-        function inspectCallback(error: any, info:ContainerInspectInfo) {
-            try { 
+        function inspectCallback(error: any, info: ContainerInspectInfo) {
+            try {
                 if (error != null) callback(false, null)
                 else if (info.State.Running == true) callback(true, container)
                 else callback(false, null)
-            } catch { 
+            } catch {
                 callback(false, null)
             }
         }
     }
 
-    stop(){
-        
-        accessList = accessList.filter( access => access != this)
+    stop() {
+
+        accessList = accessList.filter(access => access != this)
         let container = docker().getContainer(this.containerID)
 
         if (isDevelopment) console.log("container id " + this.containerID + " was asked to stop")
-        container.stop( () => { container.remove( () => { console.log("stoped!")})})
+        container.stop(() => { container.remove(() => { console.log("stoped!") }) })
         this.path = null
     }
 
-    scan(completion:(data:cli.rootFolders) => void){
+    scan(completion: (data: cli.rootFolders) => void) {
         this.runLvCLI({
             command: "scan",
             input: "/lv/project",
@@ -161,12 +167,12 @@ export class DockerInterface {
         }, () => {
             let path = join(this.dir(), ".shared", "project.json")
             const projectJson = readFileSync(path, "utf8")
-            const root:cli.rootFolders = JSON.parse(projectJson) 
+            const root: cli.rootFolders = JSON.parse(projectJson)
             completion(root)
         })
     }
 
-    encode(completion:(success:boolean) => void){
+    encode(completion: (success: boolean) => void) {
         this.runLvCLI({
             command: "encode",
             input: "/lv/shared/project.json",
@@ -176,7 +182,7 @@ export class DockerInterface {
         })
     }
 
-    edit(port:string, file:string, completion:(success:boolean) => void){
+    edit(port: string, file: string, completion: (success: boolean) => void) {
         this.runLvCLI({
             command: "edit",
             input: file,
@@ -187,28 +193,28 @@ export class DockerInterface {
         })
     }
 
-    log(str:string, then:() => void){
+    log(str: string, then: () => void) {
         this.runLvCLI({
             command: "log",
             input: str,
             output: null
-        }, () => then() )
+        }, () => then())
     }
 
-    private async retrieveSecrets(path:string) : Promise<string> {
+    private async retrieveSecrets(path: string): Promise<string> {
 
-        const file = readFileSync(path, {encoding: "utf-8"})
-        const project:cli.projectContent = JSON.parse(file)
+        const file = readFileSync(path, { encoding: "utf-8" })
+        const project: cli.projectContent = JSON.parse(file)
 
-        let response:{[name: string]: string} = {}
+        let response: { [name: string]: string } = {}
 
         for (let dx in project.header.drivers) {
 
             const driver = project.header.drivers[dx]
-            
+
             if (driver.current != true) continue;
             if (driver.secrets == null) continue;
-            
+
             for (let key in driver.secrets) {
                 let service = driver.secrets[key];
                 let storedSecret = await kt.findPassword(service)
@@ -216,24 +222,24 @@ export class DockerInterface {
             }
         }
 
-        for(var prop in response) {
+        for (var prop in response) {
             // at least one key
-            if(response.hasOwnProperty(prop)){
+            if (response.hasOwnProperty(prop)) {
                 return Buffer
-                    .from( JSON.stringify(response, null, "\t") )
+                    .from(JSON.stringify(response, null, "\t"))
                     .toString("base64");
             }
         }
-        
+
         return "";
     }
 
-    async build(projectPath:string, completion:(success:boolean) => void){
+    async build(projectPath: string, completion: (success: boolean) => void) {
 
         console.log("starting build... looking for secrets")
         const secrets = await this.retrieveSecrets(projectPath)
         console.log("done! calling lv-cli")
-        
+
         this.runLvCLI({
             command: "build",
             input: `/lv/scripts/build.sh ${secrets}`,
@@ -244,13 +250,13 @@ export class DockerInterface {
         })
     }
 
-    runLvCLI(data:{command:string, input:string, output:string, bag?:string, project?:string},
-        callback:() => void){
+    runLvCLI(data: { command: string, input: string, output: string, bag?: string, project?: string },
+        callback: () => void) {
 
-        this.withContainer( (container) => {
+        this.withContainer((container) => {
 
             const decoder = this.streamToString
-            const context = this 
+            const context = this
 
             let command = [
                 "lv-cli", isDevelopment ? "verbose" : "", data.command,
@@ -277,10 +283,10 @@ export class DockerInterface {
                 AttachStderr: true,
                 AttachStdout: true
             }
-            
+
             container.exec(options, execCommand)
 
-            function execCommand(err:any, command:Exec) {
+            function execCommand(err: any, command: Exec) {
 
                 if (err != null)
                     throw new Error("can't run scan. exec failed!")
@@ -288,12 +294,12 @@ export class DockerInterface {
                 command.start({}, execResponse)
             }
 
-            function execResponse(error:any, stream:any){
+            function execResponse(error: any, stream: any) {
 
                 if (error != null || stream == null)
                     throw new Error("invalid response from scan!")
 
-                decoder(stream).then( (response:string) => {
+                decoder(stream).then((response: string) => {
 
                     if (response.includes("cannot exec in a stopped state")) {
                         console.log(`can't run. restart container?`)
@@ -301,7 +307,7 @@ export class DockerInterface {
                         if (isDevelopment) console.log("\n<lvcli> " + response + "</lvcli>\n")
                         callback()
                     }
-                    
+
                 }).catch(() => {
                     console.log(`empty response for ${data.command}`)
                 })
@@ -309,10 +315,10 @@ export class DockerInterface {
         })
     }
 
-    private streamToString (stream:any) {
-        const chunks:any = []
+    private streamToString(stream: any) {
+        const chunks: any = []
         return new Promise((resolve, reject) => {
-            stream.on('data', (chunk:any) => chunks.push(chunk))
+            stream.on('data', (chunk: any) => chunks.push(chunk))
             stream.on('error', reject)
             stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
         })

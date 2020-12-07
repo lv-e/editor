@@ -11,5 +11,6 @@
         "**/node_modules": true,
         "**/.vscode": true,
         "**/yarn.lock": true
-    }
+    },
+    "npm-scripts.showStartNotification": false
 }
